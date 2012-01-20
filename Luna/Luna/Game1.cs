@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Luna.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -18,6 +19,10 @@ namespace Luna
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private Texture2D spriteSheet;
+
+        //TODO: Remove this
+        private Sprite tmpSprite;
 
         public Game1()
         {
@@ -47,7 +52,16 @@ namespace Luna
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            //TODO: Make a GameState that does this instead
+
+            Camera.WorldRectangle = new Rectangle(0, 0, 1600, 1600);
+            Camera.ViewPortWidth = 800;
+            Camera.ViewPortHeight = 600;
+
+            spriteSheet = Content.Load<Texture2D>(@"Textures\SpriteSheet");
+            tmpSprite = new Sprite(new Vector2(100,100), spriteSheet, new Rectangle(0,64,32,32), new Vector2(60,0));
+            tmpSprite.AddFrame(new Rectangle(32,64,32,32));
+            tmpSprite.AddFrame(new Rectangle(64, 64, 32, 32));
         }
 
         /// <summary>
@@ -71,6 +85,7 @@ namespace Luna
                 this.Exit();
 
             // TODO: Add your update logic here
+            tmpSprite.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -83,7 +98,10 @@ namespace Luna
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
             // TODO: Add your drawing code here
+            tmpSprite.Draw(spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
