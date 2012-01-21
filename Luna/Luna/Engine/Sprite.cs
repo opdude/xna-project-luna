@@ -69,7 +69,7 @@ namespace Luna.Engine
         public float Rotation
         {
             get { return rotation_; }
-            set { rotation_ = value % MathHelper.Pi; }
+            set { rotation_ = value%MathHelper.Pi; }
         }
 
         public int Frame
@@ -134,23 +134,27 @@ namespace Luna.Engine
         {
             get { return Camera.Transform(worldLocation_ + RelativeCenter); }
         }
+
         #endregion
 
         #region Collision Related Properties
+
         public Rectangle BoundingBoxRect
         {
             get
             {
                 return new Rectangle(
-                    (int)worldLocation_.X + BoundingXPadding,
-                    (int)worldLocation_.Y + BoundingYPadding,
-                    FrameWidth - (BoundingXPadding * 2),
-                    FrameHeight - (BoundingYPadding * 2));
+                    (int) worldLocation_.X + BoundingXPadding,
+                    (int) worldLocation_.Y + BoundingYPadding,
+                    FrameWidth - (BoundingXPadding*2),
+                    FrameHeight - (BoundingYPadding*2));
             }
         }
+
         #endregion
 
         #region Collision Detection Methods
+
         public bool IsBoxColliding(Rectangle otherBox)
         {
             if (Collidable && !Expired)
@@ -173,9 +177,11 @@ namespace Luna.Engine
 
             return false;
         }
+
         #endregion
 
         #region Animation-Related Methods
+
         public void AddFrame(Rectangle frameRectangle)
         {
             frames_.Add(frameRectangle);
@@ -185,9 +191,11 @@ namespace Luna.Engine
         {
             Rotation = (float) Math.Atan2(direction.Y, direction.X);
         }
+
         #endregion
 
         #region Update and Draw Methods
+
         public virtual void Update(GameTime gameTime)
         {
             if (!Expired)
@@ -202,13 +210,16 @@ namespace Luna.Engine
                     {
                         if (AnimateWhenStopped || velocity_ != Vector2.Zero)
                         {
-                            currentFrame_ = (currentFrame_ + 1) % frames_.Count;
+                            currentFrame_ = (currentFrame_ + 1)%frames_.Count;
                             timeForCurrentFrame_ = 0.0f;
                         }
                     }
                 }
 
-                worldLocation_ += (velocity_ * elapsed);
+                if (Velocity != Vector2.Zero)
+                {
+                    worldLocation_ += (velocity_*elapsed);
+                }
             }
         }
 
@@ -231,6 +242,7 @@ namespace Luna.Engine
                 }
             }
         }
+
         #endregion
     }
 }
