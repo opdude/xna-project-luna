@@ -60,7 +60,11 @@ namespace Luna.Engine
             get { return frames_[0].Height; }
         }
 
-        public Color TintColor { get; set; }
+        public Color TintColor
+        {
+            get { return tintColor_; }
+            set { tintColor_ = value; }
+        }
 
         public float Rotation
         {
@@ -89,14 +93,22 @@ namespace Luna.Engine
 
         #region Positional Properties
 
-        public Vector2 WorldLocation { get; set; }
+        public Vector2 WorldLocation
+        {
+            get { return worldLocation_; }
+            set { worldLocation_ = value; }
+        }
 
         public Vector2 ScreenLocation
         {
             get { return Camera.Transform(worldLocation_); }
         }
 
-        public Vector2 Velocity { get; set; }
+        public Vector2 Velocity
+        {
+            get { return velocity_; }
+            set { velocity_ = value; }
+        }
 
         public Rectangle WorldRectangle
         {

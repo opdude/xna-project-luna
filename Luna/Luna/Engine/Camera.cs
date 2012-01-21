@@ -22,7 +22,11 @@ namespace Luna.Engine
             }
         }
 
-        public static Rectangle WorldRectangle { get; set; }
+        public static Rectangle WorldRectangle
+        {
+            get { return worldRectangle_; }
+            set { worldRectangle_ = value; }
+        }
 
         public static int ViewPortWidth
         {
