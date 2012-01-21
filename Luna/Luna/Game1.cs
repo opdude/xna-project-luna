@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Luna.Engine;
+using Luna.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -20,9 +21,6 @@ namespace Luna
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D spriteSheet;
-
-        //TODO: Remove this
-        private Sprite tmpSprite;
 
         public Game1()
         {
@@ -52,6 +50,10 @@ namespace Luna
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.ApplyChanges();
+
             //TODO: Make a GameState that does this instead
 
             Camera.WorldRectangle = new Rectangle(0, 0, 1600, 1600);
@@ -59,9 +61,14 @@ namespace Luna
             Camera.ViewPortHeight = 600;
 
             spriteSheet = Content.Load<Texture2D>(@"Textures\SpriteSheet");
-            tmpSprite = new Sprite(new Vector2(100,100), spriteSheet, new Rectangle(0,64,32,32), new Vector2(60,0));
-            tmpSprite.AddFrame(new Rectangle(32,64,32,32));
-            tmpSprite.AddFrame(new Rectangle(64, 64, 32, 32));
+            Player.Initialize(spriteSheet,
+                new Rectangle(0,64,32,32),
+                6,
+                new Rectangle(0,96,32,32),
+                1,
+                new Vector2(100,100));
+
+            TileMap.Initialize(spriteSheet);
         }
 
         /// <summary>
@@ -85,7 +92,7 @@ namespace Luna
                 this.Exit();
 
             // TODO: Add your update logic here
-            tmpSprite.Update(gameTime);
+            Player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -99,8 +106,8 @@ namespace Luna
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            // TODO: Add your drawing code here
-            tmpSprite.Draw(spriteBatch);
+            TileMap.Draw(spriteBatch);
+            Player.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
