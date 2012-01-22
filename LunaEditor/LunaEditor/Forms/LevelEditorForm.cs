@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using LunaEngine.Data;
 using LunaEngine.Entities;
 using LunaEngine.Graphics;
 using Microsoft.Xna.Framework;
@@ -112,9 +113,24 @@ namespace LunaEditor.Forms
             {
                 levelPath_ = frmSave.FileName;
                 Level = new TileMap();
-                Level.Initialise(SelectedTexture(), 0);
+                InitialiseLevel();
                 SaveLevel();
             }
+        }
+
+        /// <summary>
+        /// Intialise a level or reset it
+        /// </summary>
+        private void InitialiseLevel()
+        {
+            if (Level == null)
+                return;
+
+            if (SelectedTexture() == null)
+                return;
+
+            TileMapData tileMapData = new TileMapData();
+            Level.Initialise(tileMapData, SelectedTexture());
         }
 
         private void SaveLevel()

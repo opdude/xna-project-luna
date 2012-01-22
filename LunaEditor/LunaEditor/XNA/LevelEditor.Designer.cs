@@ -1,4 +1,4 @@
-﻿namespace LunaEditor.Forms
+﻿namespace LunaEditor.XNA
 {
     partial class LevelEditor
     {

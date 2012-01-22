@@ -92,6 +92,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\TileMapData.cs" />
+    <Compile Include="Data\MapSquareData.cs" />
     <Compile Include="Entities\Camera.cs" />
     <Compile Include="Data\EntityData.cs" />
     <Compile Include="Data\EntityDataManager.cs" />

@@ -1,4 +1,6 @@
-﻿namespace LunaEditor.Forms
+﻿using LunaEditor.XNA;
+
+namespace LunaEditor.Forms
 {
     partial class LevelEditorForm
     {
@@ -34,7 +36,7 @@
             this.charactersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.lvlEditor = new LunaEditor.Forms.LevelEditor();
+            this.lvlEditor = new LevelEditor();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabTiles = new System.Windows.Forms.TabPage();
             this.lstTilesets = new System.Windows.Forms.ListBox();

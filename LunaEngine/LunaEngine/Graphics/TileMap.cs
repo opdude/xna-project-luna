@@ -1,6 +1,8 @@
-﻿using Luna.Engine;
+﻿using System.IO;
+using LunaEngine.Data;
 using LunaEngine.Entities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace LunaEngine.Graphics
@@ -8,12 +10,6 @@ namespace LunaEngine.Graphics
     public class TileMap
     {
         #region Declarations
-
-        private const int TILEWIDTH_DEFAULT = 48;
-        private const int TILEHEIGHT_DEFAULT = 48;
-        private const int MAPWIDTH_DEFAULT = 160;
-        private const int MAPHEIGHT_DEFAULT = 12;
-        private const int MAPLAYERS_DEFAULT = 3;
 
         private static MapSquare[,] mapCells_;
 
@@ -39,44 +35,51 @@ namespace LunaEngine.Graphics
 
         #endregion
 
-        #region Constructor
-
-        public TileMap()
-        {
-            //Defaults
-            TileWidth = TILEWIDTH_DEFAULT;
-            TileHeight = TILEHEIGHT_DEFAULT;
-            MapWidth = MAPWIDTH_DEFAULT;
-            MapHeight = MAPHEIGHT_DEFAULT;
-            MapLayers = MAPLAYERS_DEFAULT;
-
-            mapCells_ = new MapSquare[MapWidth,MapHeight];
-        }
-
-        #endregion
-
         #region Initializer
 
         /// <summary>
-        /// Initialise our tile map with air tiles
+        /// Initialise the map with the given mapData
         /// </summary>
-        /// <param name="tileTexture">The tilesheet to be used on this tile map</param>
-        /// <param name="skyTile"></param>
-        public void Initialise(Texture2D tileTexture, int skyTile)
+        /// <param name="data"></param>
+        private void Initialise(TileMapData data)
         {
-            tileSheet_ = tileTexture;
+            TileWidth = data.TileWidth;
+            TileHeight = data.TileHeight;
+            MapWidth = data.MapWidth;
+            MapHeight = data.MapHeight;
+            MapLayers = data.MapLayers;
 
-            //Spawn a map with just air tiles
+            mapCells_ = new MapSquare[MapWidth, MapHeight];
             for (int x = 0; x < MapWidth; x++)
             {
                 for (int y = 0; y < MapHeight; y++)
                 {
-                    for (int z = 0; z < MapLayers; z++)
-                    {
-                        mapCells_[x, y] = new MapSquare(skyTile, 0, 0, "", true);
-                    }
+                    MapSquareData mapSquareData = data.MapSquareData[data.GetMapSquareIndex(x, y)];
+                    mapCells_[x, y] = new MapSquare(mapSquareData);
                 }
             }
+        }
+
+        /// <summary>
+        /// Initialise our tile map from within the game, 
+        /// here we can use the ContentManager to load 
+        /// the texture
+        /// </summary>
+        public void Initialise(TileMapData data, ContentManager content)
+        {
+            tileSheet_ = content.Load<Texture2D>(data.TextureSource);
+            Initialise(data);
+        }
+
+        /// <summary>
+        /// Initialise a map with the given tileSheet
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="tileSheet"></param>
+        public void Initialise(TileMapData data, Texture2D tileSheet)
+        {
+            tileSheet_ = tileSheet;
+            Initialise(data);
         }
 
         #endregion
@@ -218,14 +221,14 @@ namespace LunaEngine.Graphics
         /// <returns></returns>
         public bool CellIsPassable(int cellX, int cellY)
         {
-            MapSquare mapSquare = GetMapSquareAtCell(cellX, cellY);
+            MapSquare tile = GetMapSquareAtCell(cellX, cellY);
 
-            if (mapSquare == null)
+            if (tile == null)
             {
                 return false;
             }
 
-            return mapSquare.Passable;
+            return tile.Passable;
         }
 
         /// <summary>
@@ -258,14 +261,14 @@ namespace LunaEngine.Graphics
         /// <returns></returns>
         public string GetCellCodeValue(int cellX, int cellY)
         {
-            MapSquare mapSquare = GetMapSquareAtCell(cellX, cellY);
+            MapSquare tile = GetMapSquareAtCell(cellX, cellY);
 
-            if (mapSquare == null)
+            if (tile == null)
             {
                 return "";
             }
 
-            return mapSquare.CodeValue;
+            return tile.CodeValue;
         }
 
         /// <summary>
@@ -280,7 +283,7 @@ namespace LunaEngine.Graphics
 
         #endregion
 
-        #region Information about MapSquare objects
+        #region Information about Tile objects
 
         public bool MapSquareExists(int tileX, int tileY)
         {
@@ -316,11 +319,11 @@ namespace LunaEngine.Graphics
         {
             if (MapSquareExists(cellX, cellY) && layer >= 0)
             {
-                MapSquare mapSquare = mapCells_[cellX, cellY];
+                MapSquare tile = mapCells_[cellX, cellY];
 
-                if (layer < mapSquare.LayerTiles.Length)
+                if (layer < tile.LayerTiles.Length)
                 {
-                    mapSquare.LayerTiles[layer] = tileIndex;
+                    tile.LayerTiles[layer] = tileIndex;
                 }
             }
         }

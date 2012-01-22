@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using LunaEngine.Data;
 
-namespace Luna.Engine
+namespace LunaEngine.Graphics
 {
     public class MapSquare
     {
@@ -15,15 +12,13 @@ namespace Luna.Engine
 
         #endregion
 
-        #region Construction
+        #region Constructor
 
-        public MapSquare(int background, int interactive, int foreground, string code, bool passable)
+        public MapSquare(MapSquareData data)
         {
-            LayerTiles[0] = background;
-            LayerTiles[1] = interactive;
-            LayerTiles[2] = foreground;
-            CodeValue = code;
-            Passable = passable;
+            LayerTiles = data.LayerTiles;
+            CodeValue = data.CodeValue;
+            Passable = data.Passable;
         }
         #endregion
 

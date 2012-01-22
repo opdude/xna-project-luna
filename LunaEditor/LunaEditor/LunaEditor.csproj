@@ -63,10 +63,10 @@
       <DependentUpon>CharactersForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\LuGame.cs" />
-    <Compile Include="Forms\LevelEditor.cs">
+    <Compile Include="XNA\LevelEditor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\LevelEditor.Designer.cs">
+    <Compile Include="XNA\LevelEditor.Designer.cs">
       <DependentUpon>LevelEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\LevelEditorForm.cs">
@@ -101,7 +101,7 @@
     <EmbeddedResource Include="Forms\CharactersForm.resx">
       <DependentUpon>CharactersForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\LevelEditor.resx">
+    <EmbeddedResource Include="XNA\LevelEditor.resx">
       <DependentUpon>LevelEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LevelEditorForm.resx">
