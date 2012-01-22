@@ -8,6 +8,7 @@ namespace LunaEngine.Graphics
     public class TileMap
     {
         #region Declarations
+
         public const int TileWidth = 48;
         public const int TileHeight = 48;
         public const int MapWidth = 160;
@@ -15,12 +16,13 @@ namespace LunaEngine.Graphics
         public const int MapLayers = 3;
         private const int SkyTile = 2;
 
-        static private MapSquare[,] mapCells_ = new MapSquare[MapWidth, MapHeight];
+        private static MapSquare[,] mapCells_ = new MapSquare[MapWidth,MapHeight];
 
-        static public bool EditorMode = false;
+        public static bool EditorMode = false;
 
-        static private SpriteFont spriteFont_;
-        static private Texture2D tileSheet_;
+        private static SpriteFont spriteFont_;
+        private static Texture2D tileSheet_;
+
         #endregion
 
         #region Initializer
@@ -29,18 +31,18 @@ namespace LunaEngine.Graphics
         /// Initialise our tile map with air tiles
         /// </summary>
         /// <param name="tileTexture">The tilesheet to be used on this tile map</param>
-        public static void Initialise(Texture2D tileTexture)
+        public void Initialise(Texture2D tileTexture)
         {
             tileSheet_ = tileTexture;
 
             //Spawn a map with just air tiles
-            for (int x=0; x < MapWidth; x++)
+            for (int x = 0; x < MapWidth; x++)
             {
-                for (int y=0; y < MapHeight; y++)
+                for (int y = 0; y < MapHeight; y++)
                 {
-                    for (int z=0; z<MapLayers; z++)
+                    for (int z = 0; z < MapLayers; z++)
                     {
-                        mapCells_[x,y] = new MapSquare(SkyTile, 0, 0, "", true);
+                        mapCells_[x, y] = new MapSquare(SkyTile, 0, 0, "", true);
                     }
                 }
             }
@@ -53,7 +55,7 @@ namespace LunaEngine.Graphics
         /// <summary>
         /// The number of tiles per row on the tile sheet
         /// </summary>
-        public static int TilesPerRow
+        public int TilesPerRow
         {
             get { return tileSheet_.Width/TileWidth; }
         }
@@ -63,11 +65,11 @@ namespace LunaEngine.Graphics
         /// </summary>
         /// <param name="tileIndex">The tile index to use</param>
         /// <returns></returns>
-        public static Rectangle TileSourceRectangle(int tileIndex)
+        public Rectangle TileSourceRectangle(int tileIndex)
         {
             return new Rectangle(
-                (tileIndex % TilesPerRow) * TileWidth,
-                (tileIndex % TilesPerRow) * TileHeight,
+                (tileIndex%TilesPerRow)*TileWidth,
+                (tileIndex%TilesPerRow)*TileHeight,
                 TileWidth,
                 TileHeight);
         }
@@ -81,7 +83,7 @@ namespace LunaEngine.Graphics
         /// </summary>
         /// <param name="pixelX"></param>
         /// <returns></returns>
-        public static int GetCellByPixelX(int pixelX)
+        public int GetCellByPixelX(int pixelX)
         {
             return pixelX/TileWidth;
         }
@@ -91,7 +93,7 @@ namespace LunaEngine.Graphics
         /// </summary>
         /// <param name="pixelY"></param>
         /// <returns></returns>
-        public static int GetCellByPixelY(int pixelY)
+        public int GetCellByPixelY(int pixelY)
         {
             return pixelY/TileHeight;
         }
@@ -101,11 +103,11 @@ namespace LunaEngine.Graphics
         /// </summary>
         /// <param name="pixelLocation"></param>
         /// <returns></returns>
-        static public Vector2 GetCellAtPixel(Vector2 pixelLocation)
+        public Vector2 GetCellAtPixel(Vector2 pixelLocation)
         {
-            return  new Vector2(
-                GetCellByPixelX((int)pixelLocation.X), 
-                GetCellByPixelY((int)pixelLocation.Y));
+            return new Vector2(
+                GetCellByPixelX((int) pixelLocation.X),
+                GetCellByPixelY((int) pixelLocation.Y));
         }
 
         /// <summary>
@@ -114,7 +116,7 @@ namespace LunaEngine.Graphics
         /// <param name="cellX"></param>
         /// <param name="cellY"></param>
         /// <returns></returns>
-        static public Vector2 GetCellCenter(int cellX, int cellY)
+        public Vector2 GetCellCenter(int cellX, int cellY)
         {
             return new Vector2(
                 (cellX*TileWidth) + (TileWidth/2),
@@ -126,9 +128,9 @@ namespace LunaEngine.Graphics
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
-        static public Vector2 GetCellCenter(Vector2 cell)
+        public Vector2 GetCellCenter(Vector2 cell)
         {
-            return GetCellCenter((int)cell.X, (int)cell.Y);
+            return GetCellCenter((int) cell.X, (int) cell.Y);
         }
 
         /// <summary>
@@ -137,11 +139,11 @@ namespace LunaEngine.Graphics
         /// <param name="cellX"></param>
         /// <param name="cellY"></param>
         /// <returns></returns>
-        static public Rectangle CellWorldRectangle(int cellX, int cellY)
+        public Rectangle CellWorldRectangle(int cellX, int cellY)
         {
             return new Rectangle(
-                cellX * TileWidth,
-                cellY * TileHeight,
+                cellX*TileWidth,
+                cellY*TileHeight,
                 TileWidth,
                 TileHeight);
         }
@@ -151,7 +153,7 @@ namespace LunaEngine.Graphics
         /// </summary>
         /// <param name="square"></param>
         /// <returns></returns>
-        static public Rectangle CellWorldRectangle(Vector2 cell)
+        public Rectangle CellWorldRectangle(Vector2 cell)
         {
             return CellWorldRectangle((int) cell.X, (int) cell.Y);
         }
@@ -162,7 +164,7 @@ namespace LunaEngine.Graphics
         /// <param name="cellX"></param>
         /// <param name="cellY"></param>
         /// <returns></returns>
-        static public Rectangle CellScreenRectangle(int cellX, int cellY)
+        public Rectangle CellScreenRectangle(int cellX, int cellY)
         {
             return Camera.WorldToScreen(CellWorldRectangle(cellX, cellY));
         }
@@ -172,9 +174,9 @@ namespace LunaEngine.Graphics
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
-        static public Rectangle CellScreenRectangle(Vector2 cell)
+        public Rectangle CellScreenRectangle(Vector2 cell)
         {
-            return Camera.WorldToScreen(CellWorldRectangle((int)cell.X, (int)cell.Y));
+            return Camera.WorldToScreen(CellWorldRectangle((int) cell.X, (int) cell.Y));
         }
 
         /// <summary>
@@ -183,7 +185,7 @@ namespace LunaEngine.Graphics
         /// <param name="cellX"></param>
         /// <param name="cellY"></param>
         /// <returns></returns>
-        static public bool CellIsPassable(int cellX, int cellY)
+        public bool CellIsPassable(int cellX, int cellY)
         {
             MapSquare mapSquare = GetMapSquareAtCell(cellX, cellY);
 
@@ -200,7 +202,7 @@ namespace LunaEngine.Graphics
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
-        static public bool CellIsPassable(Vector2 cell)
+        public bool CellIsPassable(Vector2 cell)
         {
             return CellIsPassable((int) cell.X, (int) cell.Y);
         }
@@ -210,7 +212,7 @@ namespace LunaEngine.Graphics
         /// </summary>
         /// <param name="pixelLocation"></param>
         /// <returns></returns>
-        static public bool CellIsPassableByPixel(Vector2 pixelLocation)
+        public bool CellIsPassableByPixel(Vector2 pixelLocation)
         {
             return CellIsPassable(
                 GetCellByPixelX((int) pixelLocation.X),
@@ -223,7 +225,7 @@ namespace LunaEngine.Graphics
         /// <param name="cellX"></param>
         /// <param name="cellY"></param>
         /// <returns></returns>
-        static public string GetCellCodeValue(int cellX, int cellY)
+        public string GetCellCodeValue(int cellX, int cellY)
         {
             MapSquare mapSquare = GetMapSquareAtCell(cellX, cellY);
 
@@ -240,26 +242,28 @@ namespace LunaEngine.Graphics
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
-        static public string GetCellCodeValue(Vector2 cell)
+        public string GetCellCodeValue(Vector2 cell)
         {
             return GetCellCodeValue((int) cell.X, (int) cell.Y);
         }
+
         #endregion
 
         #region Information about MapSquare objects
-        static public bool MapSquareExists(int tileX, int tileY)
+
+        public bool MapSquareExists(int tileX, int tileY)
         {
-             if ((tileX >= 0 && tileX < MapWidth) &&
+            if ((tileX >= 0 && tileX < MapWidth) &&
                 (tileY >= 0 && tileY < MapHeight))
-             {
-                 return true;
-             }
+            {
+                return true;
+            }
 
             return false;
         }
 
 
-        static public MapSquare GetMapSquareAtCell(int cellX, int cellY)
+        public MapSquare GetMapSquareAtCell(int cellX, int cellY)
         {
             if (MapSquareExists(cellX, cellY))
             {
@@ -269,7 +273,7 @@ namespace LunaEngine.Graphics
             return null;
         }
 
-        public static void SetMapSquareAtCell(int cellX, int cellY, MapSquare tile)
+        private static void SetMapSquareAtCell(int cellX, int cellY, MapSquare tile)
         {
             if (MapSquareExists(cellX, cellY))
             {
@@ -277,7 +281,7 @@ namespace LunaEngine.Graphics
             }
         }
 
-        static public void SetTileAtCell(int cellX, int cellY, int layer, int tileIndex)
+        public void SetTileAtCell(int cellX, int cellY, int layer, int tileIndex)
         {
             if (MapSquareExists(cellX, cellY) && layer >= 0)
             {
@@ -290,33 +294,35 @@ namespace LunaEngine.Graphics
             }
         }
 
-        static public int GetMapSquareAtPixel(int pixelX, int pixelY)
+        public int GetMapSquareAtPixel(int pixelX, int pixelY)
         {
             return GetMapSquareAtPixel(
                 GetCellByPixelX(pixelX),
                 GetCellByPixelY(pixelY));
         }
 
-        static public int GetMapSquareAtPixel(Vector2 pixelLocation)
+        public int GetMapSquareAtPixel(Vector2 pixelLocation)
         {
             return GetMapSquareAtPixel(
-                GetCellByPixelX((int)pixelLocation.X),
-                GetCellByPixelY((int)pixelLocation.Y));
+                GetCellByPixelX((int) pixelLocation.X),
+                GetCellByPixelY((int) pixelLocation.Y));
         }
+
         #endregion
 
         #region Drawing
-        static public void Draw(SpriteBatch spriteBatch)
+
+        public void Draw(SpriteBatch spriteBatch)
         {
             int startX = GetCellByPixelX((int) Camera.Position.X);
             int endX = GetCellByPixelX((int) Camera.ViewPort.Right);
 
-            int startY = GetCellByPixelY((int)Camera.Position.Y);
+            int startY = GetCellByPixelY((int) Camera.Position.Y);
             int endY = GetCellByPixelY((int) Camera.ViewPort.Bottom);
 
-            for (int x=startX; x <= endX; x++)
+            for (int x = startX; x <= endX; x++)
             {
-                for (int y=startY; y <= endY; y++)
+                for (int y = startY; y <= endY; y++)
                 {
                     for (int z = 0; z < MapLayers; z++)
                     {
@@ -341,6 +347,7 @@ namespace LunaEngine.Graphics
                 }
             }
         }
+
         #endregion
 
         #region Helpers
