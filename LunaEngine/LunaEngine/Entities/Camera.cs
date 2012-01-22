@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Luna.Engine
+namespace LunaEngine.Entities
 {
     public static class Camera
     {
@@ -50,7 +50,11 @@ namespace Luna.Engine
         #endregion
 
 
-        #region Methods
+        #region  Public Methods
+        /// <summary>
+        /// Move the camera by a given offset
+        /// </summary>
+        /// <param name="offset"></param>
         public static void Move(Vector2 offset)
         {
             Position += offset;
@@ -67,27 +71,51 @@ namespace Luna.Engine
         }
 
         /// <summary>
-        /// Transform a point into camera space
+        /// Transform a world location to a screen location
         /// </summary>
-        /// <param name="point"></param>
+        /// <param name="worldLocation"></param>
         /// <returns></returns>
-        public static Vector2 Transform(Vector2 point)
+        public static Vector2 WorldToScreen(Vector2 worldLocation)
         {
-            return point - position_;
+            return worldLocation - position_;
         }
 
         /// <summary>
-        /// Transform a rectangle into camera space
+        /// Transform a world Rectangle to a screen rectangle
         /// </summary>
-        /// <param name="rect"></param>
+        /// <param name="worldRectangle"></param>
         /// <returns></returns>
-        public static Rectangle Transform(Rectangle rect)
+        public static Rectangle WorldToScreen(Rectangle worldRectangle)
         {
             return new Rectangle(
-                rect.Left - (int)position_.X,
-                rect.Top - (int)position_.Y, 
-                rect.Width, 
-                rect.Height);
+                worldRectangle.Left - (int) position_.X,
+                worldRectangle_.Top - (int) position_.Y,
+                worldRectangle.Width,
+                worldRectangle.Height);
+        }
+
+        /// <summary>
+        /// Transform a screen location to a world location
+        /// </summary>
+        /// <param name="screenLocation"></param>
+        /// <returns></returns>
+        public static Vector2 ScreenToWorld(Vector2 screenLocation)
+        {
+            return screenLocation + position_;
+        }
+
+        /// <summary>
+        /// Transform a screen rectangle to a world rectangle
+        /// </summary>
+        /// <param name="screenRectangle"></param>
+        /// <returns></returns>
+        public static Rectangle ScreenToWorld(Rectangle screenRectangle)
+        {
+            return new Rectangle(
+                screenRectangle.Left + (int)position_.X,
+                screenRectangle.Top + (int)position_.Y,
+                screenRectangle.Width,
+                screenRectangle.Height);
         }
         #endregion
     }

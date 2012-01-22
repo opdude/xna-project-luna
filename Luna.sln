@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna", "Luna\Luna\Luna.csproj", "{E0C961DB-FD85-4DE9-B479-B998148257D6}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "LunaContent", "Luna\LunaContent\LunaContent.contentproj", "{DADE27B0-B4D8-4162-AAE0-75CF561BEA9D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LunaContent", "Luna\LunaContent\LunaContent.contentproj", "{DADE27B0-B4D8-4162-AAE0-75CF561BEA9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LunaEngine", "LunaEngine\LunaEngine\LunaEngine.csproj", "{8B917603-BAA0-4856-A6BA-D456F9BD6E3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{E0C961DB-FD85-4DE9-B479-B998148257D6}.Release|x86.Build.0 = Release|x86
 		{DADE27B0-B4D8-4162-AAE0-75CF561BEA9D}.Debug|x86.ActiveCfg = Debug|x86
 		{DADE27B0-B4D8-4162-AAE0-75CF561BEA9D}.Release|x86.ActiveCfg = Release|x86
+		{8B917603-BAA0-4856-A6BA-D456F9BD6E3C}.Debug|x86.ActiveCfg = Debug|x86
+		{8B917603-BAA0-4856-A6BA-D456F9BD6E3C}.Debug|x86.Build.0 = Debug|x86
+		{8B917603-BAA0-4856-A6BA-D456F9BD6E3C}.Release|x86.ActiveCfg = Release|x86
+		{8B917603-BAA0-4856-A6BA-D456F9BD6E3C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

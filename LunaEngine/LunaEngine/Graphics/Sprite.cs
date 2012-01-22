@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Luna.Engine;
+using LunaEngine.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Luna.Engine
+namespace LunaEngine.Graphics
 {
-    internal class Sprite
+    public class Sprite
     {
         #region Declarations
 
@@ -101,7 +103,7 @@ namespace Luna.Engine
 
         public Vector2 ScreenLocation
         {
-            get { return Camera.Transform(worldLocation_); }
+            get { return Camera.WorldToScreen(worldLocation_); }
         }
 
         public Vector2 Velocity
@@ -117,7 +119,7 @@ namespace Luna.Engine
 
         public Rectangle ScreenRectangle
         {
-            get { return Camera.Transform(WorldRectangle); }
+            get { return Camera.WorldToScreen(WorldRectangle); }
         }
 
         public Vector2 RelativeCenter
@@ -132,7 +134,7 @@ namespace Luna.Engine
 
         public Vector2 ScreenCenter
         {
-            get { return Camera.Transform(worldLocation_ + RelativeCenter); }
+            get { return Camera.WorldToScreen(worldLocation_ + RelativeCenter); }
         }
 
         #endregion

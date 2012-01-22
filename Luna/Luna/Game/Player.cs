@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Luna.Engine;
+﻿using Luna.Engine;
+using LunaEngine;
+using LunaEngine.Entities;
+using LunaEngine.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -196,11 +195,11 @@ namespace Luna.Game
                 {
                     for (int y=0; y < BaseSprite.FrameHeight; y++)
                     {
-                        if (TileMap.IsWallTileByPixel(new Vector2(x, newHorizontalLoc.Y + y)))
+                       /* if (TileMap.IsWallTileByPixel(new Vector2(x, newHorizontalLoc.Y + y)))
                         {
                             movedAngle.X = 0;
                             break;
-                        }
+                        }*/
                     }
 
                     if (movedAngle.X == 0)
@@ -216,11 +215,11 @@ namespace Luna.Game
                 {
                     for (int x = 0; x < BaseSprite.FrameWidth; x++)
                     {
-                        if (TileMap.IsWallTileByPixel(new Vector2(newVerticalLoc.X + x, y)))
+                        /*if (TileMap.IsWallTileByPixel(new Vector2(newVerticalLoc.X + x, y)))
                         {
                             movedAngle.Y = 0;
                             break;
-                        }
+                        }*/
                     }
 
                     if (movedAngle.Y == 0)

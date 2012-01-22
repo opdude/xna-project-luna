@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Luna.Engine;
 using Luna.Game;
+using LunaEngine.Entities;
+using LunaEngine.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -60,7 +62,7 @@ namespace Luna
             Camera.ViewPortWidth = 800;
             Camera.ViewPortHeight = 600;
 
-            spriteSheet = Content.Load<Texture2D>(@"Textures\SpriteSheet");
+            spriteSheet = Content.Load<Texture2D>(@"Textures\PlatformTiles");
             Player.Initialize(spriteSheet,
                 new Rectangle(0,64,32,32),
                 6,
@@ -68,7 +70,7 @@ namespace Luna
                 1,
                 new Vector2(100,100));
 
-            TileMap.Initialize(spriteSheet);
+            TileMap.Initialise(spriteSheet);
         }
 
         /// <summary>
@@ -105,7 +107,7 @@ namespace Luna
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             TileMap.Draw(spriteBatch);
             Player.Draw(spriteBatch);
             spriteBatch.End();
