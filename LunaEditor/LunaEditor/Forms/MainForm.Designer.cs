@@ -72,21 +72,21 @@
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
             this.newGameToolStripMenuItem.Size = new System.Drawing.Size(154, 24);
             this.newGameToolStripMenuItem.Text = "&New Game";
-            this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
+            this.newGameToolStripMenuItem.Click += new System.EventHandler(this.NewGameToolStripMenuItemClick);
             // 
             // tsmSaveGame
             // 
             this.tsmSaveGame.Name = "tsmSaveGame";
             this.tsmSaveGame.Size = new System.Drawing.Size(154, 24);
             this.tsmSaveGame.Text = "&Save Game";
-            this.tsmSaveGame.Click += new System.EventHandler(this.tsmSaveGame_Click);
+            this.tsmSaveGame.Click += new System.EventHandler(this.TsmSaveGameClick);
             // 
             // tsmLoadGame
             // 
             this.tsmLoadGame.Name = "tsmLoadGame";
             this.tsmLoadGame.Size = new System.Drawing.Size(154, 24);
             this.tsmLoadGame.Text = "&Load Game";
-            this.tsmLoadGame.Click += new System.EventHandler(this.tsmLoadGame_Click);
+            this.tsmLoadGame.Click += new System.EventHandler(this.TsmLoadGameClick);
             // 
             // toolStripMenuItem1
             // 
@@ -98,7 +98,7 @@
             this.tsmExit.Name = "tsmExit";
             this.tsmExit.Size = new System.Drawing.Size(154, 24);
             this.tsmExit.Text = "E&xit";
-            this.tsmExit.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.tsmExit.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
             // tsmEntities
             // 
@@ -114,7 +114,7 @@
             this.tsmCharacters.Name = "tsmCharacters";
             this.tsmCharacters.Size = new System.Drawing.Size(147, 24);
             this.tsmCharacters.Text = "&Characters";
-            this.tsmCharacters.Click += new System.EventHandler(this.tsmCharacters_Click);
+            this.tsmCharacters.Click += new System.EventHandler(this.TsmCharactersClick);
             // 
             // tsmLevel
             // 
@@ -131,7 +131,7 @@
             this.tsmNewLevel.Name = "tsmNewLevel";
             this.tsmNewLevel.Size = new System.Drawing.Size(149, 24);
             this.tsmNewLevel.Text = "&New Level";
-            this.tsmNewLevel.Click += new System.EventHandler(this.tsmNewLevel_Click);
+            this.tsmNewLevel.Click += new System.EventHandler(this.TsmNewLevelClick);
             // 
             // loadLevelToolStripMenuItem
             // 

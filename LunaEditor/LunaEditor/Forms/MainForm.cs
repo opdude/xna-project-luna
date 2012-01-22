@@ -8,7 +8,6 @@ namespace LunaEditor.Forms
 {
     public partial class MainForm : Form
     {
-
         #region Declarations
 
         private LuGame game_;
@@ -17,6 +16,31 @@ namespace LunaEditor.Forms
 
         private string gamePath_;
         private string texturePath_;
+        private string levelPath_;
+
+        public const string GAME_XML = @"\Game.xml";
+        public const string GAME_FOLDER = @"Game";
+        public const string TEXTURE_FOLDER = @"Textures";
+        public const string LEVEL_FOLDER = @"Levels";
+
+        #endregion
+
+        #region Properties
+
+        public LuGame Game
+        {
+            get { return game_; }
+            set
+            {
+                game_ = value;
+
+                if (game_ != null)
+                {
+                }
+
+                EditingButtonsEnabled((game_ != null));
+            }
+        }
 
         #endregion
 
@@ -26,12 +50,13 @@ namespace LunaEditor.Forms
         }
 
         #region Event Handlers
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void ExitToolStripMenuItemClick(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewGameToolStripMenuItemClick(object sender, EventArgs e)
         {
             using (NewGameForm frmNewGame = new NewGameForm())
             {
@@ -52,38 +77,36 @@ namespace LunaEditor.Forms
                     {
                         try
                         {
-                            gamePath_ = Path.Combine(frmFolder.SelectedPath, "Game");
-                            texturePath_ = Path.Combine(gamePath_, "Textures");
+                            gamePath_ = Path.Combine(frmFolder.SelectedPath, GAME_FOLDER);
+                            UpdatePaths();
 
                             if (Directory.Exists(gamePath_))
                                 throw new Exception("Selected directory already exists.");
 
                             Directory.CreateDirectory(gamePath_);
                             Directory.CreateDirectory(texturePath_);
-                            game_ = frmNewGame.Game;
+                            Directory.CreateDirectory(levelPath_);
+                            Game = frmNewGame.Game;
 
-                            //Serialize the data
-                            XnaSerializer.Serialize<LuGame>(gamePath_ + @"\Game.xml", game_);
+                            SaveGame();
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             MessageBox.Show(ex.ToString());
                             EditingButtonsEnabled(false);
                             return;
                         }
-
-                        EditingButtonsEnabled(true);
                     }
                 }
             }
         }
 
-        private void tsmSaveGame_Click(object sender, EventArgs e)
+        private void TsmSaveGameClick(object sender, EventArgs e)
         {
-
+            SaveGame();
         }
 
-        private void tsmCharacters_Click(object sender, EventArgs e)
+        private void TsmCharactersClick(object sender, EventArgs e)
         {
             if (frmCharacters_ == null)
             {
@@ -94,7 +117,7 @@ namespace LunaEditor.Forms
             frmCharacters_.Show();
         }
 
-        private void tsmNewLevel_Click(object sender, EventArgs e)
+        private void TsmNewLevelClick(object sender, EventArgs e)
         {
             if (frmLevelEditor_ == null)
             {
@@ -102,14 +125,17 @@ namespace LunaEditor.Forms
                 frmLevelEditor_.MdiParent = this;
             }
 
+            frmLevelEditor_.LevelFolder = levelPath_;
+            frmLevelEditor_.TextureFolder = texturePath_;
             frmLevelEditor_.Show();
+            frmLevelEditor_.NewLevel();
         }
 
-        private void tsmLoadGame_Click(object sender, EventArgs e)
+        private void TsmLoadGameClick(object sender, EventArgs e)
         {
             OpenFileDialog frmFile = new OpenFileDialog();
-            frmFile.Title = "Load a game into the editor";
-            frmFile.InitialDirectory = Application.StartupPath;
+            frmFile.Title = Resources.txtLoadGame;
+            frmFile.Filter = "XML Files (*.xml)|*.xml";
 
             DialogResult result = frmFile.ShowDialog();
 
@@ -117,27 +143,48 @@ namespace LunaEditor.Forms
             {
                 try
                 {
-                    game_ = XnaSerializer.Deserialize<LuGame>(frmFile.FileName);
+                    Game = XnaSerializer.Deserialize<LuGame>(frmFile.FileName);
+
+                    gamePath_ = Path.GetDirectoryName(frmFile.FileName);
+                    UpdatePaths();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                     EditingButtonsEnabled(false);
                     return;
                 }
             }
-
-            EditingButtonsEnabled(true);
         }
-#endregion
+
+        #endregion
 
         #region Helpers
+
+        private void SaveGame()
+        {
+            //Serialize the data
+            if (game_ != null)
+            {
+                XnaSerializer.Serialize<LuGame>(gamePath_ + GAME_XML, game_);
+            }
+        }
+
+        private void UpdatePaths()
+        {
+            if (gamePath_ != null)
+            {
+                texturePath_ = Path.Combine(gamePath_, TEXTURE_FOLDER);
+                levelPath_ = Path.Combine(gamePath_, LEVEL_FOLDER);
+            }
+        }
 
         private void EditingButtonsEnabled(bool enabled)
         {
             tsmEntities.Enabled = enabled;
             tsmLevel.Enabled = enabled;
         }
+
         #endregion
     }
 }

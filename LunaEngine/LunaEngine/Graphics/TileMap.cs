@@ -9,19 +9,49 @@ namespace LunaEngine.Graphics
     {
         #region Declarations
 
-        public const int TileWidth = 48;
-        public const int TileHeight = 48;
-        public const int MapWidth = 160;
-        public const int MapHeight = 12;
-        public const int MapLayers = 3;
-        private const int SkyTile = 2;
+        private const int TILEWIDTH_DEFAULT = 48;
+        private const int TILEHEIGHT_DEFAULT = 48;
+        private const int MAPWIDTH_DEFAULT = 160;
+        private const int MAPHEIGHT_DEFAULT = 12;
+        private const int MAPLAYERS_DEFAULT = 3;
 
-        private static MapSquare[,] mapCells_ = new MapSquare[MapWidth,MapHeight];
+        private static MapSquare[,] mapCells_;
 
         public static bool EditorMode = false;
 
         private static SpriteFont spriteFont_;
         private static Texture2D tileSheet_;
+
+        #endregion
+
+        #region Properties
+
+        public int TileWidth { get; set; }
+        public int TileHeight { get; set; }
+        public int MapWidth { get; set; }
+        public int MapHeight { get; set; }
+        public int MapLayers { get; set; }
+
+        public Texture2D TileSheet
+        {
+            set { tileSheet_ = value; }
+        }
+
+        #endregion
+
+        #region Constructor
+
+        public TileMap()
+        {
+            //Defaults
+            TileWidth = TILEWIDTH_DEFAULT;
+            TileHeight = TILEHEIGHT_DEFAULT;
+            MapWidth = MAPWIDTH_DEFAULT;
+            MapHeight = MAPHEIGHT_DEFAULT;
+            MapLayers = MAPLAYERS_DEFAULT;
+
+            mapCells_ = new MapSquare[MapWidth,MapHeight];
+        }
 
         #endregion
 
@@ -31,7 +61,8 @@ namespace LunaEngine.Graphics
         /// Initialise our tile map with air tiles
         /// </summary>
         /// <param name="tileTexture">The tilesheet to be used on this tile map</param>
-        public void Initialise(Texture2D tileTexture)
+        /// <param name="skyTile"></param>
+        public void Initialise(Texture2D tileTexture, int skyTile)
         {
             tileSheet_ = tileTexture;
 
@@ -42,7 +73,7 @@ namespace LunaEngine.Graphics
                 {
                     for (int z = 0; z < MapLayers; z++)
                     {
-                        mapCells_[x, y] = new MapSquare(SkyTile, 0, 0, "", true);
+                        mapCells_[x, y] = new MapSquare(skyTile, 0, 0, "", true);
                     }
                 }
             }
@@ -273,7 +304,7 @@ namespace LunaEngine.Graphics
             return null;
         }
 
-        private static void SetMapSquareAtCell(int cellX, int cellY, MapSquare tile)
+        private void SetMapSquareAtCell(int cellX, int cellY, MapSquare tile)
         {
             if (MapSquareExists(cellX, cellY))
             {
@@ -314,6 +345,11 @@ namespace LunaEngine.Graphics
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            if (tileSheet_ == null)
+            {
+                return;
+            }
+
             int startX = GetCellByPixelX((int) Camera.Position.X);
             int endX = GetCellByPixelX((int) Camera.ViewPort.Right);
 

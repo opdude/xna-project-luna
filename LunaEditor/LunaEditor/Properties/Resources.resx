@@ -123,4 +123,7 @@
 	<data name="txt_NewGame_Folder">
 		<value xml:space="preserve">Select a folder to create the game in.</value>
 	</data>
+	<data name="txtLoadGame">
+		<value xml:space="preserve">Load a game into the editor</value>
+	</data>
 </root>

@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Luna.Engine
 {
-    [Serializable]
     public class MapSquare
     {
         #region Declaration

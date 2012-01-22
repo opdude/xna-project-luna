@@ -29,16 +29,12 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsmExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tilesetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.charactersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lvlEditor = new LunaEditor.Forms.LevelEditor();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabTiles = new System.Windows.Forms.TabPage();
             this.lstTilesets = new System.Windows.Forms.ListBox();
@@ -53,7 +49,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabLayers = new System.Windows.Forms.TabPage();
             this.lstLayers = new System.Windows.Forms.CheckedListBox();
-            this.lvlEditor = new LunaEditor.Forms.LevelEditor();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -70,7 +65,6 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
             this.tilesetToolStripMenuItem,
             this.mapLayerToolStripMenuItem,
             this.charactersToolStripMenuItem,
@@ -80,40 +74,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(743, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newLevelToolStripMenuItem,
-            this.tsmSave,
-            this.toolStripMenuItem1,
-            this.tsmExit});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
-            this.fileToolStripMenuItem.Text = "&Level";
-            // 
-            // newLevelToolStripMenuItem
-            // 
-            this.newLevelToolStripMenuItem.Name = "newLevelToolStripMenuItem";
-            this.newLevelToolStripMenuItem.Size = new System.Drawing.Size(147, 24);
-            this.newLevelToolStripMenuItem.Text = "&New Level";
-            // 
-            // tsmSave
-            // 
-            this.tsmSave.Name = "tsmSave";
-            this.tsmSave.Size = new System.Drawing.Size(147, 24);
-            this.tsmSave.Text = "&Save Level";
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(144, 6);
-            // 
-            // tsmExit
-            // 
-            this.tsmExit.Name = "tsmExit";
-            this.tsmExit.Size = new System.Drawing.Size(147, 24);
-            this.tsmExit.Text = "&Exit";
             // 
             // tilesetToolStripMenuItem
             // 
@@ -156,6 +116,17 @@
             this.splitContainer1.SplitterDistance = 502;
             this.splitContainer1.TabIndex = 2;
             // 
+            // lvlEditor
+            // 
+            this.lvlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvlEditor.Location = new System.Drawing.Point(0, 0);
+            this.lvlEditor.Name = "lvlEditor";
+            this.lvlEditor.Size = new System.Drawing.Size(502, 496);
+            this.lvlEditor.TabIndex = 0;
+            this.lvlEditor.Text = "Level Editor";
+            this.lvlEditor.OnInitialize += new System.EventHandler(this.lvlEditor_OnInitialize);
+            this.lvlEditor.OnDraw += new System.EventHandler(this.lvlEditor_OnDraw);
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabTiles);
@@ -193,6 +164,7 @@
             this.lstTilesets.Name = "lstTilesets";
             this.lstTilesets.Size = new System.Drawing.Size(210, 132);
             this.lstTilesets.TabIndex = 7;
+            this.lstTilesets.SelectedIndexChanged += new System.EventHandler(this.LstTilesetsSelectedIndexChanged);
             // 
             // label3
             // 
@@ -295,19 +267,8 @@
             this.lstLayers.FormattingEnabled = true;
             this.lstLayers.Location = new System.Drawing.Point(3, 3);
             this.lstLayers.Name = "lstLayers";
-            this.lstLayers.Size = new System.Drawing.Size(222, 461);
+            this.lstLayers.Size = new System.Drawing.Size(223, 461);
             this.lstLayers.TabIndex = 0;
-            // 
-            // lvlEditor
-            // 
-            this.lvlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvlEditor.Location = new System.Drawing.Point(0, 0);
-            this.lvlEditor.Name = "lvlEditor";
-            this.lvlEditor.Size = new System.Drawing.Size(502, 496);
-            this.lvlEditor.TabIndex = 0;
-            this.lvlEditor.Text = "Level Editor";
-            this.lvlEditor.OnInitialize += new System.EventHandler(this.lvlEditor_OnInitialize);
-            this.lvlEditor.OnDraw += new System.EventHandler(this.lvlEditor_OnDraw);
             // 
             // LevelEditorForm
             // 
@@ -343,11 +304,6 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newLevelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tsmSave;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem tsmExit;
         private System.Windows.Forms.ToolStripMenuItem tilesetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mapLayerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem charactersToolStripMenuItem;

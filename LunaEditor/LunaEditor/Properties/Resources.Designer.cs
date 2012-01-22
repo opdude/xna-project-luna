@@ -86,5 +86,14 @@ namespace LunaEditor.Properties {
                 return ResourceManager.GetString("TxtError", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load a game into the editor.
+        /// </summary>
+        internal static string txtLoadGame {
+            get {
+                return ResourceManager.GetString("txtLoadGame", resourceCulture);
+            }
+        }
     }
 }
