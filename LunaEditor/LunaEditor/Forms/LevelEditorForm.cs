@@ -6,10 +6,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using LunaEditor.Properties;
 using LunaEngine.Data;
 using LunaEngine.Entities;
 using LunaEngine.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace LunaEditor.Forms
@@ -39,27 +41,23 @@ namespace LunaEditor.Forms
 
         public TileMap Level
         {
-            get { return level_; } 
+            get { return level_; }
             set
             {
                 textures_ = FindTextures(TextureFolder);
                 UpdateTextureList();
+                imgCurrentTilesheet.Image = UIHelpers.Texture2Image(SelectedTexture());
                 level_ = value;
             }
         }
 
         #endregion
 
+        #region Initialisation
+
         public LevelEditorForm()
         {
             InitializeComponent();
-        }
-
-        #region Initialisation
-
-        private void lvlEditor_OnInitialize(object sender, EventArgs e)
-        {
-            spriteBatch_ = new SpriteBatch(GraphicsDevice);
 
             Camera.WorldRectangle = new Rectangle(0, 0, 1600, 1600);
             Camera.ViewPortWidth = 800;
@@ -82,20 +80,45 @@ namespace LunaEditor.Forms
             spriteBatch_.End();
         }
 
+        private void lvlEditor_OnInitialise(object sender, EventArgs e)
+        {
+            spriteBatch_ = new SpriteBatch(GraphicsDevice);
+        }
+
         #endregion
 
         #region Event Handling
+
+        private void LevelEditorForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SaveLevel();
+        }
 
         private void LstTilesetsSelectedIndexChanged(object sender, EventArgs e)
         {
             if (Level != null)
             {
                 Level.TileSheet = SelectedTexture();
+                imgCurrentTilesheet.Image = UIHelpers.Texture2Image(SelectedTexture());
             }
         }
 
-        #endregion
+        private void TsbNewLevelClick(object sender, EventArgs e)
+        {
+            NewLevel();
+        }
 
+        private void numTile_ValueChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void lvlEditor_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
 
         #region Helper Methods
 
@@ -130,6 +153,7 @@ namespace LunaEditor.Forms
                 return;
 
             TileMapData tileMapData = new TileMapData();
+            tileMapData.Initialise(new TileSheetData(SelectedTexture().Name));
             Level.Initialise(tileMapData, SelectedTexture());
         }
 
@@ -138,10 +162,17 @@ namespace LunaEditor.Forms
             XnaSerializer.Serialize(levelPath_, Level);
         }
 
-        private void LoadLevel(string fileName)
+        public void LoadLevel(string fileName)
         {
             levelPath_ = fileName;
-            Level = XnaSerializer.Deserialize<TileMap>(fileName);
+            try
+            {
+                Level = XnaSerializer.Deserialize<TileMap>(fileName);
+            }
+            catch (InvalidContentException)
+            {
+                UIHelpers.Error(Resources.txtUnrecognisedFileFormat);
+            }
         }
 
         private List<Texture2D> FindTextures(string texturePath)
@@ -153,6 +184,7 @@ namespace LunaEditor.Forms
             {
                 Stream stream = new FileStream(file, FileMode.Open);
                 Texture2D tex = Texture2D.FromStream(GraphicsDevice, stream);
+                tex.Name = file;
                 output.Add(tex);
             }
 
@@ -162,7 +194,10 @@ namespace LunaEditor.Forms
         private void UpdateTextureList()
         {
             lstTilesets.Items.Clear();
-            lstTilesets.Items.AddRange(textures_.ToArray());
+            foreach (var texture2D in textures_)
+            {
+                lstTilesets.Items.Add(texture2D.Name);
+            }
             lstTilesets.SelectedIndex = 0;
         }
 
@@ -172,5 +207,9 @@ namespace LunaEditor.Forms
         }
 
         #endregion
+
+
+
+
     }
 }

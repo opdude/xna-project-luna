@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Xml;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 
@@ -16,7 +17,14 @@ namespace LunaEditor
 
             using (XmlWriter writer = XmlWriter.Create(filename, settings))
             {
-                IntermediateSerializer.Serialize<T>(writer, data, null);
+                try
+                {
+                    IntermediateSerializer.Serialize<T>(writer, data, null);
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
             }
         }
 
@@ -28,7 +36,14 @@ namespace LunaEditor
             {
                 using (XmlReader reader  = XmlReader.Create(fileStream))
                 {
-                    data = IntermediateSerializer.Deserialize<T>(reader, null);
+                    try
+                    {
+                        data = IntermediateSerializer.Deserialize<T>(reader, null);
+                    }
+                    catch(Exception e)
+                    {
+                        throw e;
+                    }
                 }
             }
 

@@ -89,7 +89,7 @@ namespace LunaEngine.Entities
         {
             return new Rectangle(
                 worldRectangle.Left - (int) position_.X,
-                worldRectangle_.Top - (int) position_.Y,
+                worldRectangle.Top - (int) position_.Y,
                 worldRectangle.Width,
                 worldRectangle.Height);
         }

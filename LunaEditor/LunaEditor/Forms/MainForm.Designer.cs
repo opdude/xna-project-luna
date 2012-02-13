@@ -39,7 +39,9 @@
             this.tsmCharacters = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmLevel = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmNewLevel = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmLoadLevel = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,10 +50,11 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.tsmEntities,
-            this.tsmLevel});
+            this.tsmLevel,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(282, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1156, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -120,7 +123,7 @@
             // 
             this.tsmLevel.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmNewLevel,
-            this.loadLevelToolStripMenuItem});
+            this.tsmLoadLevel});
             this.tsmLevel.Enabled = false;
             this.tsmLevel.Name = "tsmLevel";
             this.tsmLevel.Size = new System.Drawing.Size(55, 24);
@@ -133,23 +136,40 @@
             this.tsmNewLevel.Text = "&New Level";
             this.tsmNewLevel.Click += new System.EventHandler(this.TsmNewLevelClick);
             // 
-            // loadLevelToolStripMenuItem
+            // tsmLoadLevel
             // 
-            this.loadLevelToolStripMenuItem.Name = "loadLevelToolStripMenuItem";
-            this.loadLevelToolStripMenuItem.Size = new System.Drawing.Size(149, 24);
-            this.loadLevelToolStripMenuItem.Text = "&Load Level";
+            this.tsmLoadLevel.Name = "tsmLoadLevel";
+            this.tsmLoadLevel.Size = new System.Drawing.Size(149, 24);
+            this.tsmLoadLevel.Text = "&Load Level";
+            this.tsmLoadLevel.Click += new System.EventHandler(this.TsmLoadLevelClick);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(119, 24);
+            this.aboutToolStripMenuItem.Text = "About";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(282, 255);
+            this.ClientSize = new System.Drawing.Size(1156, 567);
             this.Controls.Add(this.menuStrip1);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Luna Editor";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -170,7 +190,9 @@
         private System.Windows.Forms.ToolStripMenuItem tsmCharacters;
         private System.Windows.Forms.ToolStripMenuItem tsmLevel;
         private System.Windows.Forms.ToolStripMenuItem tsmNewLevel;
-        private System.Windows.Forms.ToolStripMenuItem loadLevelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmLoadLevel;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
 

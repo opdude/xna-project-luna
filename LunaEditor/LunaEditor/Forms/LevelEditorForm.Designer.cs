@@ -30,104 +30,90 @@ namespace LunaEditor.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.tilesetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mapLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.charactersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LevelEditorForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.lvlEditor = new LevelEditor();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tsbNewLevel = new System.Windows.Forms.ToolStripButton();
+            this.lvlEditor = new LunaEditor.XNA.LevelEditor();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabTiles = new System.Windows.Forms.TabPage();
+            this.numTile = new System.Windows.Forms.NumericUpDown();
             this.lstTilesets = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.imgCurrentTilesheet = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbErase = new System.Windows.Forms.RadioButton();
             this.rbDraw = new System.Windows.Forms.RadioButton();
-            this.cmbTiles = new System.Windows.Forms.ComboBox();
             this.imgTile = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabLayers = new System.Windows.Forms.TabPage();
             this.lstLayers = new System.Windows.Forms.CheckedListBox();
-            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabTiles.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTile)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgCurrentTilesheet)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgTile)).BeginInit();
             this.tabLayers.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tilesetToolStripMenuItem,
-            this.mapLayerToolStripMenuItem,
-            this.charactersToolStripMenuItem,
-            this.toolStripMenuItem2});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(743, 28);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // tilesetToolStripMenuItem
-            // 
-            this.tilesetToolStripMenuItem.Name = "tilesetToolStripMenuItem";
-            this.tilesetToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
-            this.tilesetToolStripMenuItem.Text = "&Tileset";
-            // 
-            // mapLayerToolStripMenuItem
-            // 
-            this.mapLayerToolStripMenuItem.Name = "mapLayerToolStripMenuItem";
-            this.mapLayerToolStripMenuItem.Size = new System.Drawing.Size(90, 24);
-            this.mapLayerToolStripMenuItem.Text = "&Map Layer";
-            // 
-            // charactersToolStripMenuItem
-            // 
-            this.charactersToolStripMenuItem.Name = "charactersToolStripMenuItem";
-            this.charactersToolStripMenuItem.Size = new System.Drawing.Size(90, 24);
-            this.charactersToolStripMenuItem.Text = "&Characters";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(57, 24);
-            this.toolStripMenuItem2.Text = "&Items";
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.toolStrip1);
             this.splitContainer1.Panel1.Controls.Add(this.lvlEditor);
+            this.splitContainer1.Panel1MinSize = 300;
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(743, 496);
-            this.splitContainer1.SplitterDistance = 502;
+            this.splitContainer1.Panel2MinSize = 200;
+            this.splitContainer1.Size = new System.Drawing.Size(743, 524);
+            this.splitContainer1.SplitterDistance = 500;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbNewLevel});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(500, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // tsbNewLevel
+            // 
+            this.tsbNewLevel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbNewLevel.Image = ((System.Drawing.Image)(resources.GetObject("tsbNewLevel.Image")));
+            this.tsbNewLevel.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbNewLevel.Name = "tsbNewLevel";
+            this.tsbNewLevel.Size = new System.Drawing.Size(23, 22);
+            this.tsbNewLevel.Text = "New Level";
+            this.tsbNewLevel.Click += new System.EventHandler(this.TsbNewLevelClick);
             // 
             // lvlEditor
             // 
             this.lvlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvlEditor.Location = new System.Drawing.Point(0, 0);
             this.lvlEditor.Name = "lvlEditor";
-            this.lvlEditor.Size = new System.Drawing.Size(502, 496);
+            this.lvlEditor.Size = new System.Drawing.Size(500, 524);
             this.lvlEditor.TabIndex = 0;
-            this.lvlEditor.Text = "Level Editor";
-            this.lvlEditor.OnInitialize += new System.EventHandler(this.lvlEditor_OnInitialize);
+            this.lvlEditor.Text = "lvlEditor";
+            this.lvlEditor.OnInitialize += new System.EventHandler(this.lvlEditor_OnInitialise);
             this.lvlEditor.OnDraw += new System.EventHandler(this.lvlEditor_OnDraw);
+            this.lvlEditor.Click += new System.EventHandler(this.lvlEditor_Click);
             // 
             // tabControl1
             // 
@@ -137,32 +123,44 @@ namespace LunaEditor.Forms
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(237, 496);
+            this.tabControl1.Size = new System.Drawing.Size(239, 524);
             this.tabControl1.TabIndex = 0;
             // 
             // tabTiles
             // 
+            this.tabTiles.Controls.Add(this.numTile);
             this.tabTiles.Controls.Add(this.lstTilesets);
             this.tabTiles.Controls.Add(this.label3);
-            this.tabTiles.Controls.Add(this.pictureBox1);
+            this.tabTiles.Controls.Add(this.imgCurrentTilesheet);
             this.tabTiles.Controls.Add(this.label2);
             this.tabTiles.Controls.Add(this.groupBox1);
-            this.tabTiles.Controls.Add(this.cmbTiles);
             this.tabTiles.Controls.Add(this.imgTile);
             this.tabTiles.Controls.Add(this.label1);
             this.tabTiles.Location = new System.Drawing.Point(4, 25);
             this.tabTiles.Name = "tabTiles";
             this.tabTiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTiles.Size = new System.Drawing.Size(229, 467);
+            this.tabTiles.Size = new System.Drawing.Size(231, 495);
             this.tabTiles.TabIndex = 0;
             this.tabTiles.Text = "Tiles";
             this.tabTiles.UseVisualStyleBackColor = true;
             // 
+            // numTile
+            // 
+            this.numTile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.numTile.Location = new System.Drawing.Point(10, 90);
+            this.numTile.Name = "numTile";
+            this.numTile.Size = new System.Drawing.Size(210, 22);
+            this.numTile.TabIndex = 8;
+            this.numTile.ValueChanged += new System.EventHandler(this.numTile_ValueChanged);
+            // 
             // lstTilesets
             // 
+            this.lstTilesets.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lstTilesets.FormattingEnabled = true;
             this.lstTilesets.ItemHeight = 16;
-            this.lstTilesets.Location = new System.Drawing.Point(10, 323);
+            this.lstTilesets.Location = new System.Drawing.Point(10, 351);
             this.lstTilesets.Name = "lstTilesets";
             this.lstTilesets.Size = new System.Drawing.Size(210, 132);
             this.lstTilesets.TabIndex = 7;
@@ -170,32 +168,39 @@ namespace LunaEditor.Forms
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(80, 301);
+            this.label3.Location = new System.Drawing.Point(80, 331);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(57, 17);
+            this.label3.Size = new System.Drawing.Size(73, 17);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Tilesets";
+            this.label3.Text = "Tilesheets";
             // 
-            // pictureBox1
+            // imgCurrentTilesheet
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(10, 135);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(210, 154);
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
+            this.imgCurrentTilesheet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.imgCurrentTilesheet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imgCurrentTilesheet.Location = new System.Drawing.Point(10, 135);
+            this.imgCurrentTilesheet.Name = "imgCurrentTilesheet";
+            this.imgCurrentTilesheet.Size = new System.Drawing.Size(210, 193);
+            this.imgCurrentTilesheet.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgCurrentTilesheet.TabIndex = 5;
+            this.imgCurrentTilesheet.TabStop = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(64, 115);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 17);
+            this.label2.Size = new System.Drawing.Size(117, 17);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Current Tileset";
+            this.label2.Text = "Current Tilesheet";
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.rbErase);
             this.groupBox1.Controls.Add(this.rbDraw);
             this.groupBox1.Location = new System.Drawing.Point(69, 7);
@@ -227,19 +232,14 @@ namespace LunaEditor.Forms
             this.rbDraw.Text = "Draw";
             this.rbDraw.UseVisualStyleBackColor = true;
             // 
-            // cmbTiles
-            // 
-            this.cmbTiles.FormattingEnabled = true;
-            this.cmbTiles.Location = new System.Drawing.Point(10, 88);
-            this.cmbTiles.Name = "cmbTiles";
-            this.cmbTiles.Size = new System.Drawing.Size(210, 24);
-            this.cmbTiles.TabIndex = 2;
-            // 
             // imgTile
             // 
+            this.imgTile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.imgTile.Location = new System.Drawing.Point(10, 28);
             this.imgTile.Name = "imgTile";
             this.imgTile.Size = new System.Drawing.Size(53, 53);
+            this.imgTile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.imgTile.TabIndex = 1;
             this.imgTile.TabStop = false;
             // 
@@ -258,7 +258,7 @@ namespace LunaEditor.Forms
             this.tabLayers.Location = new System.Drawing.Point(4, 25);
             this.tabLayers.Name = "tabLayers";
             this.tabLayers.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLayers.Size = new System.Drawing.Size(229, 467);
+            this.tabLayers.Size = new System.Drawing.Size(231, 495);
             this.tabLayers.TabIndex = 1;
             this.tabLayers.Text = "Layers";
             this.tabLayers.UseVisualStyleBackColor = true;
@@ -269,62 +269,61 @@ namespace LunaEditor.Forms
             this.lstLayers.FormattingEnabled = true;
             this.lstLayers.Location = new System.Drawing.Point(3, 3);
             this.lstLayers.Name = "lstLayers";
-            this.lstLayers.Size = new System.Drawing.Size(223, 461);
+            this.lstLayers.Size = new System.Drawing.Size(225, 489);
             this.lstLayers.TabIndex = 0;
             // 
             // LevelEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(743, 524);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(761, 564);
             this.Name = "LevelEditorForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Level Editor";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LevelEditorForm_FormClosed);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabTiles.ResumeLayout(false);
             this.tabTiles.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTile)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgCurrentTilesheet)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgTile)).EndInit();
             this.tabLayers.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem tilesetToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem mapLayerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem charactersToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private LevelEditor lvlEditor;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabTiles;
         private System.Windows.Forms.TabPage tabLayers;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox imgTile;
-        private System.Windows.Forms.ComboBox cmbTiles;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton rbErase;
         private System.Windows.Forms.RadioButton rbDraw;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox imgCurrentTilesheet;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox lstTilesets;
         private System.Windows.Forms.CheckedListBox lstLayers;
+        private LevelEditor lvlEditor;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton tsbNewLevel;
+        private System.Windows.Forms.NumericUpDown numTile;
     }
 }

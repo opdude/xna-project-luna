@@ -14,20 +14,20 @@ namespace LunaEngine.Data
     {
         #region Declarations
 
-        private const int TILEWIDTH_DEFAULT = 48;
-        private const int TILEHEIGHT_DEFAULT = 48;
         private const int MAPWIDTH_DEFAULT = 160;
         private const int MAPHEIGHT_DEFAULT = 12;
         private const int MAPLAYERS_DEFAULT = 3;
 
         public MapSquareData[] MapSquareData;
+        public TileSheetData TileSheetData;
 
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
         public int MapWidth { get; set; }
         public int MapHeight { get; set; }
         public int MapLayers { get; set; }
-        public string TextureSource { get; set; }
+
+        public string TextureSource { get { return TileSheetData.TextureSource; } }
 
         #endregion
 
@@ -36,13 +36,11 @@ namespace LunaEngine.Data
         public TileMapData()
         {
             //Defaults
-            TileWidth = TILEWIDTH_DEFAULT;
-            TileHeight = TILEHEIGHT_DEFAULT;
             MapWidth = MAPWIDTH_DEFAULT;
             MapHeight = MAPHEIGHT_DEFAULT;
             MapLayers = MAPLAYERS_DEFAULT;
 
-            MapSquareData = new MapSquareData[TileWidth * TileHeight];
+            MapSquareData = new MapSquareData[MapWidth * MapHeight];
         }
 
         #endregion
@@ -52,11 +50,13 @@ namespace LunaEngine.Data
         /// <summary>
         /// Initialise a new map with all of the cells set to the given skyTile
         /// </summary>
-        /// <param name="textureSource"></param>
-        /// <param name="skyTile"></param>
-        public void Initialise(string textureSource, int skyTile)
+        public void Initialise(TileSheetData data)
         {
-            TextureSource = textureSource;
+            TileSheetData = data;
+            TileWidth = data.TileWidth;
+            TileHeight = data.TileHeight;
+
+            MapSquareData = new MapSquareData[MapWidth*MapHeight];
 
             for (int x = 0; x < MapWidth; x++)
             {
@@ -67,6 +67,11 @@ namespace LunaEngine.Data
                                                                      Passable = true,
                                                                      CodeValue = ""
                                                                  };
+
+                    for (int z=0; z < MapLayers; z++)
+                    {
+                        MapSquareData[GetMapSquareIndex(x, y)].LayerTiles[z] = 5;
+                    }
                 }
             }
         }
@@ -85,7 +90,7 @@ namespace LunaEngine.Data
         /// <returns></returns>
         public int GetMapSquareIndex(int cellX, int cellY)
         {
-            return cellY*TileWidth;
+            return cellY*TileWidth + cellX;
         }
 
         public void SetMapSquare(int cellX, int cellY, MapSquareData data)

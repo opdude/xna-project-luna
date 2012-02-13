@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using LunaEditor.Data;
 using LunaEditor.Properties;
+using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace LunaEditor.Forms
 {
@@ -22,6 +23,9 @@ namespace LunaEditor.Forms
         public const string GAME_FOLDER = @"Game";
         public const string TEXTURE_FOLDER = @"Textures";
         public const string LEVEL_FOLDER = @"Levels";
+        public const string XML_FILES = @"XML Files (*.xml)|*.xml";
+
+        public const string LAST_GAME_KEY = @"LastGameKey";
 
         #endregion
 
@@ -50,6 +54,17 @@ namespace LunaEditor.Forms
         }
 
         #region Event Handlers
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            string lastOpenedGame = UIHelpers.ReadSetting(LAST_GAME_KEY);
+            LoadGame(lastOpenedGame + GAME_XML);
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            UIHelpers.WriteSetting(LAST_GAME_KEY, gamePath_);
+        }
 
         private void ExitToolStripMenuItemClick(object sender, EventArgs e)
         {
@@ -80,19 +95,20 @@ namespace LunaEditor.Forms
                             gamePath_ = Path.Combine(frmFolder.SelectedPath, GAME_FOLDER);
                             UpdatePaths();
 
-                            if (Directory.Exists(gamePath_))
-                                throw new Exception("Selected directory already exists.");
+                            if (!Directory.Exists(gamePath_))
+                            {
+                                Directory.CreateDirectory(gamePath_);
+                                Directory.CreateDirectory(texturePath_);
+                                Directory.CreateDirectory(levelPath_);
+                            }
 
-                            Directory.CreateDirectory(gamePath_);
-                            Directory.CreateDirectory(texturePath_);
-                            Directory.CreateDirectory(levelPath_);
                             Game = frmNewGame.Game;
 
                             SaveGame();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.ToString());
+                            UIHelpers.Error(ex.ToString());
                             EditingButtonsEnabled(false);
                             return;
                         }
@@ -135,31 +151,65 @@ namespace LunaEditor.Forms
         {
             OpenFileDialog frmFile = new OpenFileDialog();
             frmFile.Title = Resources.txtLoadGame;
-            frmFile.Filter = "XML Files (*.xml)|*.xml";
+            frmFile.Filter = XML_FILES;
 
             DialogResult result = frmFile.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                try
-                {
-                    Game = XnaSerializer.Deserialize<LuGame>(frmFile.FileName);
+                LoadGame(frmFile.FileName);
+            }
+        }
 
-                    gamePath_ = Path.GetDirectoryName(frmFile.FileName);
-                    UpdatePaths();
-                }
-                catch (Exception ex)
+        private void TsmLoadLevelClick(object sender, EventArgs e)
+        {
+            OpenFileDialog frmOpen = new OpenFileDialog();
+            frmOpen.Filter = XML_FILES;
+
+            DialogResult result = frmOpen.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                if (frmLevelEditor_ == null)
                 {
-                    MessageBox.Show(ex.ToString());
-                    EditingButtonsEnabled(false);
-                    return;
+                    frmLevelEditor_ = new LevelEditorForm();
+                    frmLevelEditor_.MdiParent = this;
                 }
+
+                frmLevelEditor_.LevelFolder = levelPath_;
+                frmLevelEditor_.TextureFolder = texturePath_;
+                frmLevelEditor_.Show();
+                frmLevelEditor_.LoadLevel(frmOpen.FileName);
             }
         }
 
         #endregion
 
         #region Helpers
+
+        private void LoadGame(string path)
+        {
+            if (path == null)
+                return;
+
+            try
+            {
+                Game = XnaSerializer.Deserialize<LuGame>(path);
+
+                gamePath_ = Path.GetDirectoryName(path);
+                UpdatePaths();
+            }
+            catch (InvalidContentException)
+            {
+                UIHelpers.Error(Resources.txtUnrecognisedFileFormat);
+            }
+            catch (Exception ex)
+            {
+                UIHelpers.Error(ex.ToString());
+                EditingButtonsEnabled(false);
+                return;
+            }
+        }
 
         private void SaveGame()
         {
@@ -186,5 +236,6 @@ namespace LunaEditor.Forms
         }
 
         #endregion
+
     }
 }

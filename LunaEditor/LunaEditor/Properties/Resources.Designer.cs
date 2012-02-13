@@ -81,9 +81,9 @@ namespace LunaEditor.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
-        internal static string TxtError {
+        internal static string txtError {
             get {
-                return ResourceManager.GetString("TxtError", resourceCulture);
+                return ResourceManager.GetString("txtError", resourceCulture);
             }
         }
         
@@ -93,6 +93,15 @@ namespace LunaEditor.Properties {
         internal static string txtLoadGame {
             get {
                 return ResourceManager.GetString("txtLoadGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unrecongised file format..
+        /// </summary>
+        internal static string txtUnrecognisedFileFormat {
+            get {
+                return ResourceManager.GetString("txtUnrecognisedFileFormat", resourceCulture);
             }
         }
     }

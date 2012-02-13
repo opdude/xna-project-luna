@@ -117,7 +117,7 @@
 	<data name="NewGameForm.Text.Empty">
 		<value xml:space="preserve">You must enter a name and a description.</value>
 	</data>
-	<data name="TxtError">
+	<data name="txtError">
 		<value xml:space="preserve">Error</value>
 	</data>
 	<data name="txt_NewGame_Folder">
@@ -125,5 +125,8 @@
 	</data>
 	<data name="txtLoadGame">
 		<value xml:space="preserve">Load a game into the editor</value>
+	</data>
+	<data name="txtUnrecognisedFileFormat">
+		<value xml:space="preserve">Unrecongised file format.</value>
 	</data>
 </root>

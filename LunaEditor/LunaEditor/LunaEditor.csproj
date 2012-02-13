@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\TexturesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TexturesForm.Designer.cs">
+      <DependentUpon>TexturesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\CharacterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +69,7 @@
       <DependentUpon>CharactersForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\LuGame.cs" />
+    <Compile Include="UIHelpers.cs" />
     <Compile Include="XNA\LevelEditor.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -95,6 +102,9 @@
     </Compile>
     <Compile Include="XNA\GraphicsDeviceService.cs" />
     <Compile Include="XNA\ServiceContainer.cs" />
+    <EmbeddedResource Include="Forms\TexturesForm.resx">
+      <DependentUpon>TexturesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\CharacterForm.resx">
       <DependentUpon>CharacterForm.cs</DependentUpon>
     </EmbeddedResource>

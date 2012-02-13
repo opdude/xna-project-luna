@@ -38,7 +38,8 @@ namespace LunaEngine.Graphics
         #region Initializer
 
         /// <summary>
-        /// Initialise the map with the given mapData
+        /// Initialise the map with the given mapData, note that this
+        /// map data should be initialised before sending to this method
         /// </summary>
         /// <param name="data"></param>
         private void Initialise(TileMapData data)
@@ -103,7 +104,7 @@ namespace LunaEngine.Graphics
         {
             return new Rectangle(
                 (tileIndex%TilesPerRow)*TileWidth,
-                (tileIndex%TilesPerRow)*TileHeight,
+                (tileIndex/TilesPerRow)*TileHeight,
                 TileWidth,
                 TileHeight);
         }

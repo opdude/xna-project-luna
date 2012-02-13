@@ -20,7 +20,7 @@ namespace LunaEditor
 
         #region Properties
 
-        public LuGame Game { get; private set; }
+        public LuGame Game { get; set; }
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace LunaEditor
         {
             if (string.IsNullOrEmpty(txtName.Text) || string.IsNullOrEmpty(txtDescription.Text))
             {
-                MessageBox.Show(Resources.NewGameForm_Text_Empty, Resources.TxtError);
+                UIHelpers.Error(Resources.NewGameForm_Text_Empty);
                 return;
             }
 
