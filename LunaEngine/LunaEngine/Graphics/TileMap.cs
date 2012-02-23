@@ -11,22 +11,21 @@ namespace LunaEngine.Graphics
     {
         #region Declarations
 
-        private static MapSquare[,] mapCells_;
+        public TileMapData Data;
 
-        public static bool EditorMode = false;
-
-        private static SpriteFont spriteFont_;
+        //Instance based variables
+        private MapSquare[,] mapCells_;
         private static Texture2D tileSheet_;
 
         #endregion
 
         #region Properties
 
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
-        public int MapWidth { get; set; }
-        public int MapHeight { get; set; }
-        public int MapLayers { get; set; }
+        public int TileWidth { get { return Data.TileWidth;  } set { Data.TileWidth = value; } }
+        public int TileHeight { get { return Data.TileHeight; } set { Data.TileHeight = value; } }
+        public int MapWidth { get { return Data.MapWidth; } set { Data.MapWidth = value; } }
+        public int MapHeight { get { return Data.MapHeight; } set { Data.MapHeight = value; } }
+        public int MapLayers { get { return Data.MapLayers; } set { Data.MapLayers = value; } }
 
         public Texture2D TileSheet
         {
@@ -44,12 +43,9 @@ namespace LunaEngine.Graphics
         /// <param name="data"></param>
         private void Initialise(TileMapData data)
         {
-            TileWidth = data.TileWidth;
-            TileHeight = data.TileHeight;
-            MapWidth = data.MapWidth;
-            MapHeight = data.MapHeight;
-            MapLayers = data.MapLayers;
+            Data = data;
 
+            //Create our isntances of MapSquare which can later be saved/re-loaded
             mapCells_ = new MapSquare[MapWidth, MapHeight];
             for (int x = 0; x < MapWidth; x++)
             {
@@ -286,7 +282,7 @@ namespace LunaEngine.Graphics
 
         #region Information about Tile objects
 
-        public bool MapSquareExists(int tileX, int tileY)
+        public bool MapCellExists(int tileX, int tileY)
         {
             if ((tileX >= 0 && tileX < MapWidth) &&
                 (tileY >= 0 && tileY < MapHeight))
@@ -300,7 +296,7 @@ namespace LunaEngine.Graphics
 
         public MapSquare GetMapSquareAtCell(int cellX, int cellY)
         {
-            if (MapSquareExists(cellX, cellY))
+            if (MapCellExists(cellX, cellY))
             {
                 return mapCells_[cellX, cellY];
             }
@@ -308,9 +304,19 @@ namespace LunaEngine.Graphics
             return null;
         }
 
+        public MapSquare GetMapSquareAtPixel(int pixelX, int pixelY)
+        {
+            return GetMapSquareAtCell(GetCellByPixelX(pixelX), GetCellByPixelY(pixelY));
+        }
+
+        public MapSquare GetMapSquareAtPoint(Point point)
+        {
+            return GetMapSquareAtPixel(point.X, point.Y);
+        }
+
         private void SetMapSquareAtCell(int cellX, int cellY, MapSquare tile)
         {
-            if (MapSquareExists(cellX, cellY))
+            if (MapCellExists(cellX, cellY))
             {
                 mapCells_[cellX, cellY] = tile;
             }
@@ -318,7 +324,7 @@ namespace LunaEngine.Graphics
 
         public void SetTileAtCell(int cellX, int cellY, int layer, int tileIndex)
         {
-            if (MapSquareExists(cellX, cellY) && layer >= 0)
+            if (MapCellExists(cellX, cellY) && layer >= 0)
             {
                 MapSquare tile = mapCells_[cellX, cellY];
 
@@ -329,16 +335,16 @@ namespace LunaEngine.Graphics
             }
         }
 
-        public int GetMapSquareAtPixel(int pixelX, int pixelY)
+        public int GetMapCellAtPixel(int pixelX, int pixelY)
         {
-            return GetMapSquareAtPixel(
+            return GetMapCellAtPixel(
                 GetCellByPixelX(pixelX),
                 GetCellByPixelY(pixelY));
         }
 
-        public int GetMapSquareAtPixel(Vector2 pixelLocation)
+        public int GetMapCellAtPixel(Vector2 pixelLocation)
         {
-            return GetMapSquareAtPixel(
+            return GetMapCellAtPixel(
                 GetCellByPixelX((int) pixelLocation.X),
                 GetCellByPixelY((int) pixelLocation.Y));
         }
@@ -366,7 +372,7 @@ namespace LunaEngine.Graphics
                 {
                     for (int z = 0; z < MapLayers; z++)
                     {
-                        if (MapSquareExists(x, y))
+                        if (MapCellExists(x, y))
                         {
                             spriteBatch.Draw(
                                 tileSheet_,
@@ -378,11 +384,6 @@ namespace LunaEngine.Graphics
                                 SpriteEffects.None,
                                 1f - ((float) z*0.1f));
                         }
-                    }
-
-                    if (EditorMode)
-                    {
-                        //TODO: 
                     }
                 }
             }

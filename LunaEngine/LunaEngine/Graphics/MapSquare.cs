@@ -6,9 +6,28 @@ namespace LunaEngine.Graphics
     {
         #region Declaration
 
-        public int[] LayerTiles = new int[3];
-        public string CodeValue = "";
-        public bool Passable = true;
+        private MapSquareData data_;
+
+        #endregion
+
+        #region Forwarding Methods
+
+        public bool Passable
+        {
+            get { return data_.Passable; }
+            set { data_.Passable = value; }
+        }
+
+        public string CodeValue
+        {
+            get { return data_.CodeValue; }
+            set { data_.CodeValue = value; }
+        }
+
+        public int[] LayerTiles
+        {
+            get { return data_.LayerTiles; }
+        }
 
         #endregion
 
@@ -16,9 +35,7 @@ namespace LunaEngine.Graphics
 
         public MapSquare(MapSquareData data)
         {
-            LayerTiles = data.LayerTiles;
-            CodeValue = data.CodeValue;
-            Passable = data.Passable;
+            data_ = data;
         }
         #endregion
 
@@ -26,7 +43,7 @@ namespace LunaEngine.Graphics
 
         public void TogglePassable()
         {
-            Passable = !Passable;
+            data_.Passable = !data_.Passable;
         }
 
         #endregion

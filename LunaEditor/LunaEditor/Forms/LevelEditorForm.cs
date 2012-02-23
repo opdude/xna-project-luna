@@ -27,6 +27,10 @@ namespace LunaEditor.Forms
 
         private int selectedTexture_ = 0;
 
+        private bool trackMouse_;
+        private bool mouseDown_;
+        private Point mouse_ = new Point();
+
         #endregion
 
         #region Properties
@@ -44,7 +48,7 @@ namespace LunaEditor.Forms
             get { return level_; }
             set
             {
-                if (this.IsHandleCreated == true)
+                if (this.IsHandleCreated == true && textures_ == null)
                 {
                     textures_ = FindTextures(TextureFolder);
                     UpdateTextureList();
@@ -70,19 +74,7 @@ namespace LunaEditor.Forms
 
         #endregion
 
-        #region Drawing
-
-        private void lvlEditor_OnDraw(object sender, EventArgs e)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            spriteBatch_.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            if (Level != null)
-            {
-                Level.Draw(spriteBatch_);
-            }
-            spriteBatch_.End();
-        }
+        #region Drawing & Logic
 
         private void lvlEditor_OnInitialise(object sender, EventArgs e)
         {
@@ -94,6 +86,43 @@ namespace LunaEditor.Forms
             }
 
             spriteBatch_ = new SpriteBatch(GraphicsDevice);
+        }
+
+        private void lvlEditor_OnDraw(object sender, EventArgs e)
+        {
+            Update();
+            Render();
+        }
+
+        private void Render()
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch_.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            if (Level != null)
+            {
+                Level.Draw(spriteBatch_);
+            }
+            spriteBatch_.End();
+        }
+
+        /// <summary>
+        /// Update logic and other things within the level editor
+        /// </summary>
+        private void Update()
+        {
+            if (trackMouse_)
+            {
+                if (mouseDown_)
+                {
+                    MapSquare square = Level.GetMapSquareAtPixel(mouse_.X, mouse_.Y);
+
+                    if (square != null)
+                    {
+                        square.LayerTiles[2] = (int)numTile.Value;
+                    }
+                }
+            }
         }
 
         #endregion
@@ -129,6 +158,32 @@ namespace LunaEditor.Forms
         private void lvlEditor_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lvlEditor_MouseEnter(object sender, EventArgs e)
+        {
+            trackMouse_ = true;
+        }
+
+        private void lvlEditor_MouseLeave(object sender, EventArgs e)
+        {
+            trackMouse_ = false;
+        }
+
+        private void lvlEditor_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown_ = true;
+        }
+
+        private void lvlEditor_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown_ = false;
+        }
+
+        private void lvlEditor_MouseMove(object sender, MouseEventArgs e)
+        {
+            mouse_.X = e.X;
+            mouse_.Y = e.Y;
         }
 
         #endregion
@@ -172,7 +227,7 @@ namespace LunaEditor.Forms
 
         private void SaveLevel()
         {
-            XnaSerializer.Serialize(levelPath_, Level);
+            XnaSerializer.Serialize(levelPath_, Level.Data);
         }
 
         public void LoadLevel(string fileName)
@@ -180,7 +235,10 @@ namespace LunaEditor.Forms
             levelPath_ = fileName;
             try
             {
-                Level = XnaSerializer.Deserialize<TileMap>(fileName);
+                Level = new TileMap()
+                            {
+                                Data = XnaSerializer.Deserialize<TileMapData>(fileName)
+                            };
             }
             catch (InvalidContentException)
             {
@@ -202,9 +260,9 @@ namespace LunaEditor.Forms
                     tex.Name = Path.GetFileNameWithoutExtension(file);
                     output.Add(tex);
                 }
-                catch (IOException)
+                catch (IOException e)
                 {
-                    Console.WriteLine("Couldn't open texture file {0}",file);
+                    Console.WriteLine("Couldn't open texture file {0} {1}",file, e);
                     //Do nothing for now
                 }
             }
@@ -236,8 +294,17 @@ namespace LunaEditor.Forms
 
         #endregion
 
+        #region Toolstrip
+        private void newToolStripButton_Click(object sender, EventArgs e)
+        {
+            NewLevel();
+        }
 
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            SaveLevel();
+        }
 
-
+        #endregion
     }
 }

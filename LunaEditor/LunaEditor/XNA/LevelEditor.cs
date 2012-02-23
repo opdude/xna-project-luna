@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace LunaEditor.XNA
 {
@@ -11,6 +12,9 @@ namespace LunaEditor.XNA
         public LevelEditor()
         {
             InitializeComponent();
+
+            // Hook the idle event to constantly redraw our animation.
+            Application.Idle += delegate { Invalidate(); };
         }
         #endregion
 

@@ -21,6 +21,11 @@ namespace LunaEngine.Data
 
         #region Constructor
 
+        public MapSquareData()
+        {
+            
+        }
+
         public MapSquareData(int numberOfLayers)
         {
             LayerTiles = new int[numberOfLayers];

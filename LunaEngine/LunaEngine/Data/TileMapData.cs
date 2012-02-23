@@ -20,6 +20,7 @@ namespace LunaEngine.Data
 
         public MapSquareData[] MapSquareData;
         public TileSheetData TileSheetData;
+        public string Name;
 
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
