@@ -44,9 +44,13 @@ namespace LunaEditor.Forms
             get { return level_; }
             set
             {
-                textures_ = FindTextures(TextureFolder);
-                UpdateTextureList();
-                imgCurrentTilesheet.Image = UIHelpers.Texture2Image(SelectedTexture());
+                if (this.IsHandleCreated == true)
+                {
+                    textures_ = FindTextures(TextureFolder);
+                    UpdateTextureList();
+                    imgCurrentTilesheet.Image = UIHelpers.Texture2Image(SelectedTexture());
+                }
+
                 level_ = value;
             }
         }
@@ -82,6 +86,13 @@ namespace LunaEditor.Forms
 
         private void lvlEditor_OnInitialise(object sender, EventArgs e)
         {
+            if (textures_ == null)
+            {
+                textures_ = FindTextures(TextureFolder);
+                UpdateTextureList();
+                imgCurrentTilesheet.Image = UIHelpers.Texture2Image(SelectedTexture());
+            }
+
             spriteBatch_ = new SpriteBatch(GraphicsDevice);
         }
 
@@ -96,6 +107,8 @@ namespace LunaEditor.Forms
 
         private void LstTilesetsSelectedIndexChanged(object sender, EventArgs e)
         {
+            selectedTexture_ = lstTilesets.SelectedIndex;
+
             if (Level != null)
             {
                 Level.TileSheet = SelectedTexture();
@@ -182,10 +195,18 @@ namespace LunaEditor.Forms
 
             foreach (string file in files)
             {
-                Stream stream = new FileStream(file, FileMode.Open);
-                Texture2D tex = Texture2D.FromStream(GraphicsDevice, stream);
-                tex.Name = file;
-                output.Add(tex);
+                try
+                {
+                    Stream stream = new FileStream(file, FileMode.Open);
+                    Texture2D tex = Texture2D.FromStream(GraphicsDevice, stream);
+                    tex.Name = Path.GetFileNameWithoutExtension(file);
+                    output.Add(tex);
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("Couldn't open texture file {0}",file);
+                    //Do nothing for now
+                }
             }
 
             return output;
@@ -198,12 +219,19 @@ namespace LunaEditor.Forms
             {
                 lstTilesets.Items.Add(texture2D.Name);
             }
-            lstTilesets.SelectedIndex = 0;
+
+            if (textures_.Count() > 0)
+                lstTilesets.SelectedIndex = 0;
         }
 
         private Texture2D SelectedTexture()
         {
-            return textures_[selectedTexture_];
+            if (textures_.Count() > selectedTexture_)
+            {
+                return textures_[selectedTexture_];
+            }
+
+            return null;
         }
 
         #endregion
