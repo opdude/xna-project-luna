@@ -237,7 +237,7 @@ namespace LunaEngine.Graphics
                         tintColor_,
                         rotation_,
                         RelativeCenter,
-                        1.0f,
+                        Camera.WorldScale,
                         SpriteEffects.None,
                         0.0f);
                 }

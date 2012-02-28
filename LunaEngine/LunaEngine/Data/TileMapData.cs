@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace LunaEngine.Data
 {
@@ -15,15 +17,27 @@ namespace LunaEngine.Data
         #region Declarations
 
         private const int MAPWIDTH_DEFAULT = 160;
-        private const int MAPHEIGHT_DEFAULT = 12;
+        private const int MAPHEIGHT_DEFAULT = 24;
         private const int MAPLAYERS_DEFAULT = 3;
+        private const int DEFAULT_TILE = 0;
 
         public MapSquareData[] MapSquareData;
         public TileSheetData TileSheetData;
         public string Name;
 
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
+        [ContentSerializerIgnore]
+        public int TileWidth
+        {
+            get { return TileSheetData.TileWidth; }
+            set { TileSheetData.TileWidth = value; }
+        }
+
+        [ContentSerializerIgnore]
+        public int TileHeight
+        {
+            get { return TileSheetData.TileHeight; }
+            set { TileSheetData.TileHeight = value; }
+        }
         public int MapWidth { get; set; }
         public int MapHeight { get; set; }
         public int MapLayers { get; set; }
@@ -71,7 +85,7 @@ namespace LunaEngine.Data
 
                     for (int z=0; z < MapLayers; z++)
                     {
-                        MapSquareData[GetMapSquareIndex(x, y)].LayerTiles[z] = 5;
+                        MapSquareData[GetMapSquareIndex(x, y)].LayerTiles[z] = DEFAULT_TILE;
                     }
                 }
             }

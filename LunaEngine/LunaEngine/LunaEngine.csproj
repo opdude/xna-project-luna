@@ -98,9 +98,12 @@
     <Compile Include="Entities\Camera.cs" />
     <Compile Include="Data\EntityData.cs" />
     <Compile Include="Data\EntityDataManager.cs" />
+    <Compile Include="Factories\Factory.cs" />
+    <Compile Include="Factories\LevelFactory.cs" />
     <Compile Include="Graphics\MapSquare.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\TileMap.cs" />
+    <Compile Include="LunaEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

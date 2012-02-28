@@ -30,6 +30,7 @@ namespace LunaEditor.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LevelEditorForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -42,13 +43,12 @@ namespace LunaEditor.Forms
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.lvlEditor = new LunaEditor.XNA.LevelEditor();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabTiles = new System.Windows.Forms.TabPage();
-            this.numTile = new System.Windows.Forms.NumericUpDown();
+            this.lstTiles = new System.Windows.Forms.ListView();
+            this.tileList = new System.Windows.Forms.ImageList(this.components);
             this.lstTilesets = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.imgCurrentTilesheet = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbErase = new System.Windows.Forms.RadioButton();
@@ -57,6 +57,9 @@ namespace LunaEditor.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.tabLayers = new System.Windows.Forms.TabPage();
             this.lstLayers = new System.Windows.Forms.CheckedListBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.worldScale = new System.Windows.Forms.TrackBar();
+            this.lvlEditor = new LunaEditor.XNA.LevelEditor();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -64,11 +67,11 @@ namespace LunaEditor.Forms
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabTiles.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numTile)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgCurrentTilesheet)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgTile)).BeginInit();
             this.tabLayers.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.worldScale)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -79,8 +82,9 @@ namespace LunaEditor.Forms
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.toolStrip1);
+            this.splitContainer1.Panel1.Controls.Add(this.panel1);
             this.splitContainer1.Panel1.Controls.Add(this.lvlEditor);
+            this.splitContainer1.Panel1.Controls.Add(this.toolStrip1);
             this.splitContainer1.Panel1MinSize = 300;
             // 
             // splitContainer1.Panel2
@@ -184,23 +188,6 @@ namespace LunaEditor.Forms
             this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.helpToolStripButton.Text = "He&lp";
             // 
-            // lvlEditor
-            // 
-            this.lvlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvlEditor.Location = new System.Drawing.Point(0, 0);
-            this.lvlEditor.Name = "lvlEditor";
-            this.lvlEditor.Size = new System.Drawing.Size(500, 524);
-            this.lvlEditor.TabIndex = 0;
-            this.lvlEditor.Text = "lvlEditor";
-            this.lvlEditor.OnInitialize += new System.EventHandler(this.lvlEditor_OnInitialise);
-            this.lvlEditor.OnDraw += new System.EventHandler(this.lvlEditor_OnDraw);
-            this.lvlEditor.Click += new System.EventHandler(this.lvlEditor_Click);
-            this.lvlEditor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lvlEditor_MouseDown);
-            this.lvlEditor.MouseEnter += new System.EventHandler(this.lvlEditor_MouseEnter);
-            this.lvlEditor.MouseLeave += new System.EventHandler(this.lvlEditor_MouseLeave);
-            this.lvlEditor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvlEditor_MouseMove);
-            this.lvlEditor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lvlEditor_MouseUp);
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabTiles);
@@ -214,10 +201,9 @@ namespace LunaEditor.Forms
             // 
             // tabTiles
             // 
-            this.tabTiles.Controls.Add(this.numTile);
+            this.tabTiles.Controls.Add(this.lstTiles);
             this.tabTiles.Controls.Add(this.lstTilesets);
             this.tabTiles.Controls.Add(this.label3);
-            this.tabTiles.Controls.Add(this.imgCurrentTilesheet);
             this.tabTiles.Controls.Add(this.label2);
             this.tabTiles.Controls.Add(this.groupBox1);
             this.tabTiles.Controls.Add(this.imgTile);
@@ -230,15 +216,29 @@ namespace LunaEditor.Forms
             this.tabTiles.Text = "Tiles";
             this.tabTiles.UseVisualStyleBackColor = true;
             // 
-            // numTile
+            // lstTiles
             // 
-            this.numTile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.lstTiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.numTile.Location = new System.Drawing.Point(10, 90);
-            this.numTile.Name = "numTile";
-            this.numTile.Size = new System.Drawing.Size(210, 22);
-            this.numTile.TabIndex = 8;
-            this.numTile.ValueChanged += new System.EventHandler(this.numTile_ValueChanged);
+            this.lstTiles.GridLines = true;
+            this.lstTiles.HideSelection = false;
+            this.lstTiles.LargeImageList = this.tileList;
+            this.lstTiles.Location = new System.Drawing.Point(10, 104);
+            this.lstTiles.MultiSelect = false;
+            this.lstTiles.Name = "lstTiles";
+            this.lstTiles.Size = new System.Drawing.Size(215, 224);
+            this.lstTiles.TabIndex = 9;
+            this.lstTiles.TileSize = new System.Drawing.Size(48, 48);
+            this.lstTiles.UseCompatibleStateImageBehavior = false;
+            this.lstTiles.View = System.Windows.Forms.View.Tile;
+            this.lstTiles.SelectedIndexChanged += new System.EventHandler(this.lstTiles_SelectedIndexChanged);
+            // 
+            // tileList
+            // 
+            this.tileList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.tileList.ImageSize = new System.Drawing.Size(48, 48);
+            this.tileList.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // lstTilesets
             // 
@@ -263,21 +263,10 @@ namespace LunaEditor.Forms
             this.label3.TabIndex = 6;
             this.label3.Text = "Tilesheets";
             // 
-            // imgCurrentTilesheet
-            // 
-            this.imgCurrentTilesheet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.imgCurrentTilesheet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imgCurrentTilesheet.Location = new System.Drawing.Point(10, 135);
-            this.imgCurrentTilesheet.Name = "imgCurrentTilesheet";
-            this.imgCurrentTilesheet.Size = new System.Drawing.Size(210, 193);
-            this.imgCurrentTilesheet.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgCurrentTilesheet.TabIndex = 5;
-            this.imgCurrentTilesheet.TabStop = false;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(64, 115);
+            this.label2.Location = new System.Drawing.Point(66, 84);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(117, 17);
             this.label2.TabIndex = 4;
@@ -320,8 +309,6 @@ namespace LunaEditor.Forms
             // 
             // imgTile
             // 
-            this.imgTile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.imgTile.Location = new System.Drawing.Point(10, 28);
             this.imgTile.Name = "imgTile";
             this.imgTile.Size = new System.Drawing.Size(53, 53);
@@ -358,6 +345,44 @@ namespace LunaEditor.Forms
             this.lstLayers.Size = new System.Drawing.Size(225, 489);
             this.lstLayers.TabIndex = 0;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.worldScale);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 490);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(500, 34);
+            this.panel1.TabIndex = 2;
+            // 
+            // worldScale
+            // 
+            this.worldScale.Location = new System.Drawing.Point(3, 3);
+            this.worldScale.Maximum = 40;
+            this.worldScale.Minimum = 4;
+            this.worldScale.Name = "worldScale";
+            this.worldScale.Size = new System.Drawing.Size(104, 56);
+            this.worldScale.TabIndex = 0;
+            this.worldScale.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.worldScale.Value = 10;
+            this.worldScale.ValueChanged += new System.EventHandler(this.worldScale_ValueChanged);
+            // 
+            // lvlEditor
+            // 
+            this.lvlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvlEditor.Location = new System.Drawing.Point(0, 25);
+            this.lvlEditor.Name = "lvlEditor";
+            this.lvlEditor.Size = new System.Drawing.Size(500, 499);
+            this.lvlEditor.TabIndex = 0;
+            this.lvlEditor.Text = "lvlEditor";
+            this.lvlEditor.OnInitialize += new System.EventHandler(this.lvlEditor_OnInitialise);
+            this.lvlEditor.OnDraw += new System.EventHandler(this.lvlEditor_OnDraw);
+            this.lvlEditor.Click += new System.EventHandler(this.lvlEditor_Click);
+            this.lvlEditor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lvlEditor_MouseDown);
+            this.lvlEditor.MouseEnter += new System.EventHandler(this.lvlEditor_MouseEnter);
+            this.lvlEditor.MouseLeave += new System.EventHandler(this.lvlEditor_MouseLeave);
+            this.lvlEditor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvlEditor_MouseMove);
+            this.lvlEditor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lvlEditor_MouseUp);
+            // 
             // LevelEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -371,6 +396,7 @@ namespace LunaEditor.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Level Editor";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LevelEditorForm_FormClosed);
+            this.Resize += new System.EventHandler(this.LevelEditorForm_Resize);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -381,12 +407,13 @@ namespace LunaEditor.Forms
             this.tabControl1.ResumeLayout(false);
             this.tabTiles.ResumeLayout(false);
             this.tabTiles.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numTile)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgCurrentTilesheet)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgTile)).EndInit();
             this.tabLayers.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.worldScale)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -403,13 +430,11 @@ namespace LunaEditor.Forms
         private System.Windows.Forms.RadioButton rbErase;
         private System.Windows.Forms.RadioButton rbDraw;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox imgCurrentTilesheet;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox lstTilesets;
         private System.Windows.Forms.CheckedListBox lstLayers;
         private LevelEditor lvlEditor;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.NumericUpDown numTile;
         private System.Windows.Forms.ToolStripButton newToolStripButton;
         private System.Windows.Forms.ToolStripButton openToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
@@ -419,5 +444,9 @@ namespace LunaEditor.Forms
         private System.Windows.Forms.ToolStripButton pasteToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
+        private System.Windows.Forms.ImageList tileList;
+        private System.Windows.Forms.ListView lstTiles;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TrackBar worldScale;
     }
 }

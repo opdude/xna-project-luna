@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using LunaEngine;
 using LunaEditor.Data;
 using LunaEditor.Properties;
 using Microsoft.Xna.Framework.Content.Pipeline;
@@ -57,6 +58,8 @@ namespace LunaEditor.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            LEProperties.InDesignMode = true;
+
             string lastOpenedGame = UIHelpers.ReadSetting(LAST_GAME_KEY);
             LoadGame(lastOpenedGame + GAME_XML);
         }
@@ -135,6 +138,13 @@ namespace LunaEditor.Forms
 
         private void TsmNewLevelClick(object sender, EventArgs e)
         {
+            if (frmLevelEditor_ != null &&
+                frmLevelEditor_.Visible == false)
+            {
+                frmLevelEditor_.Close();
+                frmLevelEditor_ = null;
+            }
+
             if (frmLevelEditor_ == null)
             {
                 frmLevelEditor_ = new LevelEditorForm();
@@ -170,12 +180,18 @@ namespace LunaEditor.Forms
 
             if (result == DialogResult.OK)
             {
+                if (frmLevelEditor_ != null &&
+                    frmLevelEditor_.Visible == false)
+                {
+                    frmLevelEditor_.Close();
+                    frmLevelEditor_ = null;
+                }
+
                 if (frmLevelEditor_ == null)
                 {
                     frmLevelEditor_ = new LevelEditorForm();
                     frmLevelEditor_.MdiParent = this;
                 }
-
                 frmLevelEditor_.LevelFolder = levelPath_;
                 frmLevelEditor_.TextureFolder = texturePath_;
                 frmLevelEditor_.Show();

@@ -13,8 +13,8 @@ namespace LunaEngine.Data
             Level
         }
 
-        private const int TILEWIDTH_DEFAULT = 48;
-        private const int TILEHEIGHT_DEFAULT = 48;
+        public const int TILEWIDTH_DEFAULT = 48;
+        public const int TILEHEIGHT_DEFAULT = 48;
 
         public string TextureSource { get; set; }
         public int TileWidth { get; set; }

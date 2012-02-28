@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Luna.Engine;
 using Luna.Game;
+using LunaEngine.Data;
 using LunaEngine.Entities;
 using LunaEngine.Graphics;
+using LunaEngine.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -23,6 +24,10 @@ namespace Luna
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D spriteSheet;
+
+        //TODO: Remove 
+        private TileMap tileMap;
+        private LevelFactory levelFactory;
 
         public Game1()
         {
@@ -70,7 +75,11 @@ namespace Luna
                 1,
                 new Vector2(100,100));
 
-            TileMap.Initialise(spriteSheet);
+
+            //Initialise Factories
+            levelFactory = new LevelFactory(Content);
+
+            tileMap = levelFactory.Construct("Level1");
         }
 
         /// <summary>
@@ -108,7 +117,7 @@ namespace Luna
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            TileMap.Draw(spriteBatch);
+            tileMap.Draw(spriteBatch);
             Player.Draw(spriteBatch);
             spriteBatch.End();
 

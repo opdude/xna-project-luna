@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using LunaEngine.Data;
 using LunaEngine.Entities;
 using Microsoft.Xna.Framework;
@@ -16,6 +17,9 @@ namespace LunaEngine.Graphics
         //Instance based variables
         private MapSquare[,] mapCells_;
         private static Texture2D tileSheet_;
+        public Texture2D EdgeCellTexture;
+
+        private const int CELL_PADDING = 5;
 
         #endregion
 
@@ -26,6 +30,9 @@ namespace LunaEngine.Graphics
         public int MapWidth { get { return Data.MapWidth; } set { Data.MapWidth = value; } }
         public int MapHeight { get { return Data.MapHeight; } set { Data.MapHeight = value; } }
         public int MapLayers { get { return Data.MapLayers; } set { Data.MapLayers = value; } }
+
+        public int ScaledTileWidth { get { return (int) (Data.TileWidth * Camera.WorldScale); } }
+        public int ScaledTileHeight { get { return (int)(Data.TileWidth * Camera.WorldScale); } }
 
         public Texture2D TileSheet
         {
@@ -41,7 +48,7 @@ namespace LunaEngine.Graphics
         /// map data should be initialised before sending to this method
         /// </summary>
         /// <param name="data"></param>
-        private void Initialise(TileMapData data)
+        public void Initialise(TileMapData data)
         {
             Data = data;
 
@@ -58,14 +65,36 @@ namespace LunaEngine.Graphics
         }
 
         /// <summary>
-        /// Initialise our tile map from within the game, 
-        /// here we can use the ContentManager to load 
-        /// the texture
+        /// Intialise our tile map within the already given
+        /// data, this is used when we load the map from
+        /// a data file.
+        /// 
+        /// Note: This method is called from the level editor
+        /// only and includes some extra funtionallity so that
+        /// it works there happily
         /// </summary>
-        public void Initialise(TileMapData data, ContentManager content)
+        public void Initialise(string textureFolder, GraphicsDevice graphicsDevice)
         {
-            tileSheet_ = content.Load<Texture2D>(data.TextureSource);
-            Initialise(data);
+            Initialise(Data);
+            string texturePath = Path.Combine(textureFolder, Data.TextureSource);
+            try
+            {
+                if (LEProperties.InDesignMode)
+                {
+                    using (Stream stream = new FileStream(texturePath, FileMode.Open))
+                    {
+                        tileSheet_ = Texture2D.FromStream(graphicsDevice, stream);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error opening texture file {0}", texturePath);
+            }
+
+            //Create EdgeCellTexture
+            EdgeCellTexture = new Texture2D(graphicsDevice,1,1);
+            EdgeCellTexture.SetData(new Color[] { Color.Black });
         }
 
         /// <summary>
@@ -116,7 +145,7 @@ namespace LunaEngine.Graphics
         /// <returns></returns>
         public int GetCellByPixelX(int pixelX)
         {
-            return pixelX/TileWidth;
+            return pixelX / ScaledTileWidth;
         }
 
         /// <summary>
@@ -126,7 +155,7 @@ namespace LunaEngine.Graphics
         /// <returns></returns>
         public int GetCellByPixelY(int pixelY)
         {
-            return pixelY/TileHeight;
+            return pixelY / ScaledTileHeight;
         }
 
         /// <summary>
@@ -309,9 +338,9 @@ namespace LunaEngine.Graphics
             return GetMapSquareAtCell(GetCellByPixelX(pixelX), GetCellByPixelY(pixelY));
         }
 
-        public MapSquare GetMapSquareAtPoint(Point point)
+        public MapSquare GetMapSquareAtPixel(Vector2 position)
         {
-            return GetMapSquareAtPixel(point.X, point.Y);
+            return GetMapSquareAtPixel((int)position.X, (int)position.Y);
         }
 
         private void SetMapSquareAtCell(int cellX, int cellY, MapSquare tile)
@@ -360,11 +389,11 @@ namespace LunaEngine.Graphics
                 return;
             }
 
-            int startX = GetCellByPixelX((int) Camera.Position.X);
-            int endX = GetCellByPixelX((int) Camera.ViewPort.Right);
+            int startX = GetCellByPixelX((int) Camera.Position.X - TileWidth) - CELL_PADDING;
+            int endX = GetCellByPixelX((int) Camera.ViewPort.Right) + CELL_PADDING;
 
-            int startY = GetCellByPixelY((int) Camera.Position.Y);
-            int endY = GetCellByPixelY((int) Camera.ViewPort.Bottom);
+            int startY = GetCellByPixelY((int) Camera.Position.Y) - CELL_PADDING;
+            int endY = GetCellByPixelY((int) Camera.ViewPort.Bottom) + CELL_PADDING;
 
             for (int x = startX; x <= endX; x++)
             {
@@ -378,11 +407,18 @@ namespace LunaEngine.Graphics
                                 tileSheet_,
                                 CellScreenRectangle(x, y),
                                 TileSourceRectangle(mapCells_[x, y].LayerTiles[z]),
-                                Color.White,
+                                Color.Pink,
                                 0.0f,
                                 Vector2.Zero,
                                 SpriteEffects.None,
                                 1f - ((float) z*0.1f));
+                        }
+                        else if (EdgeCellTexture != null)
+                        {
+                            spriteBatch.Draw(
+                                EdgeCellTexture,
+                                CellScreenRectangle(x,y),
+                                Color.White);
                         }
                     }
                 }
