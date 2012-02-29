@@ -25,8 +25,13 @@ namespace LunaEngine.Entities
 
         public static Rectangle WorldRectangle
         {
-            get { return worldRectangle_; }
-            set { worldRectangle_ = value; }
+            get
+            {
+                return new Rectangle(0, 0,
+                                     (int)(worldRectangle_.Width*worldScale_),
+                                     (int)(worldRectangle_.Height * worldScale_));
+            }
+            private set { worldRectangle_ = value; }
         }
 
         public static int ViewPortWidth
@@ -127,6 +132,17 @@ namespace LunaEngine.Entities
                 (int)((float)screenRectangle.Top / worldScale_) + (int)position_.Y,
                 (int)((float)screenRectangle.Width / worldScale_),
                 (int)((float)screenRectangle.Height / worldScale_));
+        }
+
+        /// <summary>
+        /// Set the size of the world, this should be changed when
+        /// a level is loaded or changed
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public static void SetWorldSize(int width, int height)
+        {
+            WorldRectangle = new Rectangle(0,0,width,height);
         }
         #endregion
     }

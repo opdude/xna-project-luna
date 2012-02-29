@@ -75,7 +75,6 @@ namespace LunaEditor.Forms
         {
             InitializeComponent();
 
-            Camera.WorldRectangle = new Rectangle(0, 0, 1600, 1600);
             Camera.ViewPortWidth = 800;
             Camera.ViewPortHeight = 600;
         }
@@ -90,6 +89,7 @@ namespace LunaEditor.Forms
             }
 
             spriteBatch_ = new SpriteBatch(GraphicsDevice);
+            FixScrollBars();
         }
 
         #endregion
@@ -121,41 +121,17 @@ namespace LunaEditor.Forms
         {
             if (trackMouse_)
             {
-                Vector2 movement = Vector2.Zero;
-
-                if (mouse_.X > lvlEditor.Right - MouseXMovementArea())
-                {
-                    movement += new Vector2(MOUSE_SPEED,0);
-                }
-
-                if (mouse_.X < MouseXMovementArea())
-                {
-                    movement += new Vector2(-MOUSE_SPEED, 0);
-                }
-
-                if (mouse_.Y > lvlEditor.Bottom - MouseYMovementArea())
-                {
-                    movement += new Vector2(0, MOUSE_SPEED);
-                }
-
-                if (mouse_.Y < MouseYMovementArea())
-                {
-                    movement += new Vector2(0, -MOUSE_SPEED);
-                }
-
                 if (mouseDown_)
                 {
            
                     MapSquare square = Level.GetMapSquareAtPixel(
                         Camera.ScreenToWorld(new Vector2(mouse_.X, mouse_.Y)));
 
-                    if (square != null)
+                    if (square != null && lstTiles.SelectedItems.Count > 0)
                     {
                         square.LayerTiles[2] = lstTiles.SelectedItems[0].Index;
                     }
                 }
-
-                Camera.Position += movement;
             }
         }
 
@@ -166,6 +142,14 @@ namespace LunaEditor.Forms
         private void LevelEditorForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             SaveLevel();
+        }
+
+        private void LevelEditorForm_Resize(object sender, EventArgs e)
+        {
+            Camera.ViewPortWidth = lvlEditor.Width;
+            Camera.ViewPortHeight = lvlEditor.Height;
+
+            FixScrollBars();
         }
 
         private void LstTilesetsSelectedIndexChanged(object sender, EventArgs e)
@@ -230,6 +214,28 @@ namespace LunaEditor.Forms
             Camera.WorldScale = (float)worldScale.Value / 10;
         }
 
+        private void scrollV_ValueChanged(object sender, EventArgs e)
+        {
+            Camera.Position = new Vector2(Camera.Position.X, scrollV.Value);
+        }
+
+        private void scrollV_Scroll(object sender, ScrollEventArgs e)
+        {
+            Camera.Position = new Vector2(Camera.Position.X, e.NewValue);
+            Render();
+        }
+
+        private void scrollH_ValueChanged(object sender, EventArgs e)
+        {
+            Camera.Position = new Vector2(scrollH.Value, Camera.Position.Y);
+        }
+
+        private void scrollH_Scroll(object sender, ScrollEventArgs e)
+        {
+            Camera.Position = new Vector2(e.NewValue, Camera.Position.Y);
+            Render();
+        }
+
         #endregion
 
         #region Helper Methods
@@ -251,6 +257,8 @@ namespace LunaEditor.Forms
                 InitialiseLevel();
                 SaveLevel();
             }
+
+            FixScrollBars();
         }
 
         /// <summary>
@@ -267,6 +275,8 @@ namespace LunaEditor.Forms
             TileMapData tileMapData = new TileMapData();
             tileMapData.Initialise(new TileSheetData(SelectedTexture().Name));
             Level.Initialise(tileMapData, SelectedTexture());
+
+            Camera.SetWorldSize(Level.MapWidth*Level.TileWidth, Level.MapHeight*Level.TileHeight);
         }
 
         private void SaveLevel()
@@ -290,6 +300,10 @@ namespace LunaEditor.Forms
             {
                 UIHelpers.Error(Resources.txtUnrecognisedFileFormat);
             }
+
+            Camera.SetWorldSize(Level.MapWidth * Level.TileWidth, Level.MapHeight * Level.TileHeight);
+
+            FixScrollBars();
         }
 
         private List<Texture2D> FindTextures(string texturePath)
@@ -387,6 +401,15 @@ namespace LunaEditor.Forms
             return (lvlEditor.Width / 100.0f) * MOUSE_Y_MOVEMENT_PERCENTAGE;
         }
 
+        private void FixScrollBars()
+        {
+            scrollH.Maximum = (int)MathHelper.Max(Camera.WorldRectangle.Width - Camera.ViewPortWidth,0);
+            scrollH.Value = (int)MathHelper.Max((int)Camera.Position.X, 0);
+
+            scrollV.Maximum = (int)MathHelper.Max(Camera.WorldRectangle.Height - Camera.ViewPortHeight, 0);
+            scrollV.Value = (int)MathHelper.Max((int)Camera.Position.Y, 0);
+        }
+
         #endregion
 
         #region Toolstrip
@@ -401,13 +424,6 @@ namespace LunaEditor.Forms
             SaveLevel();
         }
 
-        private void LevelEditorForm_Resize(object sender, EventArgs e)
-        {
-            Camera.ViewPortWidth = lvlEditor.Width;
-            Camera.ViewPortHeight = lvlEditor.Height;
-        }
-
         #endregion
-
     }
 }

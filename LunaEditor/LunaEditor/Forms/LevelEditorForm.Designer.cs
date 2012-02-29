@@ -33,6 +33,8 @@ namespace LunaEditor.Forms
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LevelEditorForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.worldScale = new System.Windows.Forms.TrackBar();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -57,21 +59,21 @@ namespace LunaEditor.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.tabLayers = new System.Windows.Forms.TabPage();
             this.lstLayers = new System.Windows.Forms.CheckedListBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.worldScale = new System.Windows.Forms.TrackBar();
+            this.scrollH = new System.Windows.Forms.HScrollBar();
+            this.scrollV = new System.Windows.Forms.VScrollBar();
             this.lvlEditor = new LunaEditor.XNA.LevelEditor();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.worldScale)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabTiles.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgTile)).BeginInit();
             this.tabLayers.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.worldScale)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -82,6 +84,8 @@ namespace LunaEditor.Forms
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.scrollV);
+            this.splitContainer1.Panel1.Controls.Add(this.scrollH);
             this.splitContainer1.Panel1.Controls.Add(this.panel1);
             this.splitContainer1.Panel1.Controls.Add(this.lvlEditor);
             this.splitContainer1.Panel1.Controls.Add(this.toolStrip1);
@@ -91,9 +95,30 @@ namespace LunaEditor.Forms
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2MinSize = 200;
-            this.splitContainer1.Size = new System.Drawing.Size(743, 524);
-            this.splitContainer1.SplitterDistance = 500;
+            this.splitContainer1.Size = new System.Drawing.Size(975, 634);
+            this.splitContainer1.SplitterDistance = 656;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.worldScale);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 600);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(656, 34);
+            this.panel1.TabIndex = 2;
+            // 
+            // worldScale
+            // 
+            this.worldScale.Location = new System.Drawing.Point(3, 3);
+            this.worldScale.Maximum = 40;
+            this.worldScale.Minimum = 4;
+            this.worldScale.Name = "worldScale";
+            this.worldScale.Size = new System.Drawing.Size(104, 56);
+            this.worldScale.TabIndex = 0;
+            this.worldScale.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.worldScale.Value = 10;
+            this.worldScale.ValueChanged += new System.EventHandler(this.worldScale_ValueChanged);
             // 
             // toolStrip1
             // 
@@ -109,7 +134,7 @@ namespace LunaEditor.Forms
             this.helpToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(500, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(656, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -196,7 +221,7 @@ namespace LunaEditor.Forms
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(239, 524);
+            this.tabControl1.Size = new System.Drawing.Size(315, 634);
             this.tabControl1.TabIndex = 0;
             // 
             // tabTiles
@@ -211,7 +236,7 @@ namespace LunaEditor.Forms
             this.tabTiles.Location = new System.Drawing.Point(4, 25);
             this.tabTiles.Name = "tabTiles";
             this.tabTiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTiles.Size = new System.Drawing.Size(231, 495);
+            this.tabTiles.Size = new System.Drawing.Size(307, 605);
             this.tabTiles.TabIndex = 0;
             this.tabTiles.Text = "Tiles";
             this.tabTiles.UseVisualStyleBackColor = true;
@@ -227,7 +252,7 @@ namespace LunaEditor.Forms
             this.lstTiles.Location = new System.Drawing.Point(10, 104);
             this.lstTiles.MultiSelect = false;
             this.lstTiles.Name = "lstTiles";
-            this.lstTiles.Size = new System.Drawing.Size(215, 224);
+            this.lstTiles.Size = new System.Drawing.Size(291, 334);
             this.lstTiles.TabIndex = 9;
             this.lstTiles.TileSize = new System.Drawing.Size(48, 48);
             this.lstTiles.UseCompatibleStateImageBehavior = false;
@@ -246,9 +271,9 @@ namespace LunaEditor.Forms
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lstTilesets.FormattingEnabled = true;
             this.lstTilesets.ItemHeight = 16;
-            this.lstTilesets.Location = new System.Drawing.Point(10, 351);
+            this.lstTilesets.Location = new System.Drawing.Point(10, 461);
             this.lstTilesets.Name = "lstTilesets";
-            this.lstTilesets.Size = new System.Drawing.Size(210, 132);
+            this.lstTilesets.Size = new System.Drawing.Size(286, 132);
             this.lstTilesets.TabIndex = 7;
             this.lstTilesets.SelectedIndexChanged += new System.EventHandler(this.LstTilesetsSelectedIndexChanged);
             // 
@@ -257,7 +282,7 @@ namespace LunaEditor.Forms
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(80, 331);
+            this.label3.Location = new System.Drawing.Point(80, 441);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 17);
             this.label3.TabIndex = 6;
@@ -280,7 +305,7 @@ namespace LunaEditor.Forms
             this.groupBox1.Controls.Add(this.rbDraw);
             this.groupBox1.Location = new System.Drawing.Point(69, 7);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(153, 74);
+            this.groupBox1.Size = new System.Drawing.Size(229, 74);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Draw Mode";
@@ -331,7 +356,7 @@ namespace LunaEditor.Forms
             this.tabLayers.Location = new System.Drawing.Point(4, 25);
             this.tabLayers.Name = "tabLayers";
             this.tabLayers.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLayers.Size = new System.Drawing.Size(231, 495);
+            this.tabLayers.Size = new System.Drawing.Size(307, 605);
             this.tabLayers.TabIndex = 1;
             this.tabLayers.Text = "Layers";
             this.tabLayers.UseVisualStyleBackColor = true;
@@ -342,36 +367,35 @@ namespace LunaEditor.Forms
             this.lstLayers.FormattingEnabled = true;
             this.lstLayers.Location = new System.Drawing.Point(3, 3);
             this.lstLayers.Name = "lstLayers";
-            this.lstLayers.Size = new System.Drawing.Size(225, 489);
+            this.lstLayers.Size = new System.Drawing.Size(301, 599);
             this.lstLayers.TabIndex = 0;
             // 
-            // panel1
+            // scrollH
             // 
-            this.panel1.Controls.Add(this.worldScale);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 490);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(500, 34);
-            this.panel1.TabIndex = 2;
+            this.scrollH.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.scrollH.Location = new System.Drawing.Point(0, 579);
+            this.scrollH.Name = "scrollH";
+            this.scrollH.Size = new System.Drawing.Size(656, 21);
+            this.scrollH.TabIndex = 1;
+            this.scrollH.Scroll += new System.Windows.Forms.ScrollEventHandler(this.scrollH_Scroll);
+            this.scrollH.ValueChanged += new System.EventHandler(this.scrollH_ValueChanged);
             // 
-            // worldScale
+            // scrollV
             // 
-            this.worldScale.Location = new System.Drawing.Point(3, 3);
-            this.worldScale.Maximum = 40;
-            this.worldScale.Minimum = 4;
-            this.worldScale.Name = "worldScale";
-            this.worldScale.Size = new System.Drawing.Size(104, 56);
-            this.worldScale.TabIndex = 0;
-            this.worldScale.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.worldScale.Value = 10;
-            this.worldScale.ValueChanged += new System.EventHandler(this.worldScale_ValueChanged);
+            this.scrollV.Dock = System.Windows.Forms.DockStyle.Right;
+            this.scrollV.Location = new System.Drawing.Point(635, 25);
+            this.scrollV.Name = "scrollV";
+            this.scrollV.Size = new System.Drawing.Size(21, 554);
+            this.scrollV.TabIndex = 3;
+            this.scrollV.Scroll += new System.Windows.Forms.ScrollEventHandler(this.scrollV_Scroll);
+            this.scrollV.ValueChanged += new System.EventHandler(this.scrollV_ValueChanged);
             // 
             // lvlEditor
             // 
             this.lvlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvlEditor.Location = new System.Drawing.Point(0, 25);
             this.lvlEditor.Name = "lvlEditor";
-            this.lvlEditor.Size = new System.Drawing.Size(500, 499);
+            this.lvlEditor.Size = new System.Drawing.Size(656, 609);
             this.lvlEditor.TabIndex = 0;
             this.lvlEditor.Text = "lvlEditor";
             this.lvlEditor.OnInitialize += new System.EventHandler(this.lvlEditor_OnInitialise);
@@ -388,7 +412,7 @@ namespace LunaEditor.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(743, 524);
+            this.ClientSize = new System.Drawing.Size(975, 634);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MinimumSize = new System.Drawing.Size(761, 564);
@@ -402,6 +426,9 @@ namespace LunaEditor.Forms
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.worldScale)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -411,9 +438,6 @@ namespace LunaEditor.Forms
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgTile)).EndInit();
             this.tabLayers.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.worldScale)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -448,5 +472,7 @@ namespace LunaEditor.Forms
         private System.Windows.Forms.ListView lstTiles;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TrackBar worldScale;
+        private System.Windows.Forms.VScrollBar scrollV;
+        private System.Windows.Forms.HScrollBar scrollH;
     }
 }
